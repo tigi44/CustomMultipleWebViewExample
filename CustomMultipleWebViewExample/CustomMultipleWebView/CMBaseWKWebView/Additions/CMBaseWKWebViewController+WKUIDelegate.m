@@ -1,14 +1,14 @@
 //
-//  BaseWKWebViewController+WKUIDelegate.m
+//  CMBaseWKWebViewController+WKUIDelegate.m
 //  CustomMultipleWebViewExample
 //
 //  Created by tigi on 01/02/2019.
 //  Copyright © 2019 tigi. All rights reserved.
 //
 
-#import "BaseWKWebViewController+WKUIDelegate.h"
+#import "CMBaseWKWebViewController+WKUIDelegate.h"
 
-@implementation BaseWKWebViewController (WKUIDelegate)
+@implementation CMBaseWKWebViewController (WKUIDelegate)
 
 - (void)webView:(WKWebView *)aWebView runJavaScriptAlertPanelWithMessage:(NSString *)aMessage initiatedByFrame:(WKFrameInfo *)aFrame completionHandler:(void (^)(void))aCompletionHandler
 {

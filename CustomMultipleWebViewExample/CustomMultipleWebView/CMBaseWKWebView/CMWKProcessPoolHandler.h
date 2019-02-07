@@ -1,5 +1,5 @@
 //
-//  WKWebViewPoolHandler.h
+//  CMWKProcessPoolHandler.h
 //  CustomMultipleWebViewExample
 //
 //  Created by tigi on 01/02/2019.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WKWebViewPoolHandler : NSObject
+@interface CMWKProcessPoolHandler : NSObject
 
 + (WKProcessPool *)pool;
 

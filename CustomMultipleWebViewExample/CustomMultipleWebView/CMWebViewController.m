@@ -1,35 +1,43 @@
 //
-//  CustomMultipleWebViewController.m
+//  CMWebViewController.m
 //  CustomMultipleWebViewExample
 //
 //  Created by tigi on 01/02/2019.
 //  Copyright © 2019 tigi. All rights reserved.
 //
 
-#import "CustomMultipleWebViewController.h"
+#import "CMWebViewController.h"
 
-#import "BaseWKWebViewController+WKNavigationDelegate.h"
-#import "BaseWKWebViewController+WKUIDelegate.h"
+#import "CMBaseWKWebViewController+WKNavigationDelegate.h"
+#import "CMBaseWKWebViewController+WKUIDelegate.h"
 
-@interface CustomMultipleWebViewController ()
+@interface CMWebViewController ()
 
 @property(nonatomic, readwrite) NSMutableArray<WKWebView *> *webViews;
 @property(nonatomic, readwrite) WKWebView                   *activeWebView;
 
+- (void)closeWebViewController;
+
 @end
 
-@implementation CustomMultipleWebViewController
+@implementation CMWebViewController
 
 
 #pragma mark - OVERRIDE
 
 
+- (instancetype)initWithURL:(NSURL *)aURL
+{
+    self = [super initWithURL:aURL];
+    if (self) {
+        [self setupWebViews];
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self setupWebViews];
-    
 }
 
 - (void)viewWillAppear:(BOOL)aAnimated
@@ -80,22 +88,6 @@
     
     if ([_webViews count] <= 0 || _activeWebView == nil) {
         [self closeWebViewController];
-    }
-}
-
-- (void)closeWebViewController
-{
-    if ([self isKindOfClass:[UINavigationController class]])
-    {
-        [(UINavigationController *)self popViewControllerAnimated:YES];
-    }
-    else if(self.navigationController)
-    {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else
-    {
-        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

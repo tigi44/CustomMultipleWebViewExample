@@ -1,16 +1,16 @@
 //
-//  BaseWKWebViewController+WKUIDelegate.h
+//  CMWebViewController.h
 //  CustomMultipleWebViewExample
 //
 //  Created by tigi on 01/02/2019.
 //  Copyright © 2019 tigi. All rights reserved.
 //
 
-#import "BaseWKWebViewController.h"
+#import "CMBaseWKWebViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BaseWKWebViewController (WKUIDelegate) <WKUIDelegate>
+@interface CMWebViewController : CMBaseWKWebViewController
 
 @end
 

@@ -1,14 +1,14 @@
 //
-//  WKWebViewPoolHandler.m
+//  CMWKProcessPoolHandler.m
 //  CustomMultipleWebViewExample
 //
 //  Created by tigi on 01/02/2019.
 //  Copyright © 2019 tigi. All rights reserved.
 //
 
-#import "WKWebViewPoolHandler.h"
+#import "CMWKProcessPoolHandler.h"
 
-@implementation WKWebViewPoolHandler
+@implementation CMWKProcessPoolHandler
 
 + (WKProcessPool *)pool
 {

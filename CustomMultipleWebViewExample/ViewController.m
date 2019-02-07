@@ -8,43 +8,56 @@
 
 #import "ViewController.h"
 
-#import "CustomMultipleWebViewController.h"
+#import "CMWebViewController.h"
 
 @interface ViewController ()
 
-@property(nonatomic, readwrite) CustomMultipleWebViewController *customMultipleWebViewController;
+@property(nonatomic, readwrite) UIButton *openWebViewButton;
 
 @end
 
 @implementation ViewController
-{
-    BOOL misFirstAppear;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self.view setBackgroundColor:[UIColor grayColor]];
-    
-    misFirstAppear = YES;
-    _customMultipleWebViewController = [[CustomMultipleWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://www.payco.com"]];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    if (misFirstAppear)
-    {
-        [self presentViewController:_customMultipleWebViewController animated:NO completion:nil];
-        misFirstAppear = NO;
-    }
+    [self setupOpenWebViewButton];
 }
 
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
     
-    [_customMultipleWebViewController.view setFrame:self.view.frame];
+    CGFloat sPositionHorizontalCenter = self.view.frame.size.width / 2;
+    CGFloat sPositionVerticalCenter = self.view.frame.size.height / 2;
+    CGFloat sButtonWidth = 200.f;
+    CGFloat sButtonHeight = 200.f;
+    
+    [_openWebViewButton setFrame:CGRectMake(sPositionHorizontalCenter - sButtonWidth / 2, sPositionVerticalCenter - sButtonHeight / 2, sButtonWidth, sButtonHeight)];
+}
+
+
+#pragma mark - SETUP
+
+
+- (void)setupOpenWebViewButton
+{
+    _openWebViewButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    [_openWebViewButton addTarget:self action:@selector(openWebView:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:_openWebViewButton];
+}
+
+
+#pragma mark - PRIVATE
+
+
+- (void)openWebView:(id)aSender
+{
+    CMWebViewController *sWebView = [[CMWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://www.payco.com"]];
+    
+    [self presentViewController:sWebView animated:YES completion:nil];
 }
 
 @end

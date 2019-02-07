@@ -1,14 +1,22 @@
 //
-//  BaseWKWebViewController+WKNavigationDelegate.m
+//  CMBaseWKWebViewController+WKNavigationDelegate.m
 //  CustomMultipleWebViewExample
 //
 //  Created by tigi on 01/02/2019.
 //  Copyright © 2019 tigi. All rights reserved.
 //
 
-#import "BaseWKWebViewController+WKNavigationDelegate.h"
+#import "CMBaseWKWebViewController+WKNavigationDelegate.h"
+#import "CMTopView.h"
 
-@implementation BaseWKWebViewController (WKNavigationDelegate)
+
+@interface CMBaseWKWebViewController()
+
+- (CMTopView *)topView;
+
+@end
+
+@implementation CMBaseWKWebViewController (WKNavigationDelegate)
 
 - (void)webView:(WKWebView *)aWebView decidePolicyForNavigationAction:(WKNavigationAction *)aNavigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))aDecisionHandler
 {
@@ -27,6 +35,8 @@
 - (void)webView:(WKWebView *)aWebView didStartProvisionalNavigation:(null_unspecified WKNavigation *)aNavigation
 {
     NSLog(@"didStartProvisionalNavigation : %@", aWebView.URL);
+    
+    [[[self topView] urlTextField] setText:aWebView.URL.absoluteString];
 }
 
 - (void)webView:(WKWebView *)aWebView didFailProvisionalNavigation:(null_unspecified WKNavigation *)aNavigation withError:(NSError *)aError

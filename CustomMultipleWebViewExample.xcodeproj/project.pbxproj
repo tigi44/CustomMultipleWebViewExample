@@ -7,20 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E7FEB4B220C0D5D00F7592C /* CMTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7FEB4A220C0D5D00F7592C /* CMTopView.m */; };
+		0E7FEB4E220C28E700F7592C /* CMBaseWKWebViewController+UITextFieldDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7FEB4D220C28E700F7592C /* CMBaseWKWebViewController+UITextFieldDelegate.m */; };
 		0ED1F4D12204203C006ED281 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4D02204203C006ED281 /* AppDelegate.m */; };
 		0ED1F4D42204203C006ED281 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4D32204203C006ED281 /* ViewController.m */; };
 		0ED1F4D72204203C006ED281 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ED1F4D52204203C006ED281 /* Main.storyboard */; };
 		0ED1F4D92204203D006ED281 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0ED1F4D82204203D006ED281 /* Assets.xcassets */; };
 		0ED1F4DC2204203D006ED281 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ED1F4DA2204203D006ED281 /* LaunchScreen.storyboard */; };
 		0ED1F4DF2204203D006ED281 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4DE2204203D006ED281 /* main.m */; };
-		0ED1F4EB2204211A006ED281 /* CustomMultipleWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4EA2204211A006ED281 /* CustomMultipleWebViewController.m */; };
-		0ED1F4EF220423BD006ED281 /* BaseWKWebViewController+WKNavigationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4EE220423BD006ED281 /* BaseWKWebViewController+WKNavigationDelegate.m */; };
-		0ED1F4F2220423CE006ED281 /* BaseWKWebViewController+WKUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4F1220423CE006ED281 /* BaseWKWebViewController+WKUIDelegate.m */; };
-		0ED1F4F522042EDD006ED281 /* BaseWKWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4F422042EDD006ED281 /* BaseWKWebViewController.m */; };
-		0ED1F4F922043A33006ED281 /* WKWebViewPoolHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4F822043A33006ED281 /* WKWebViewPoolHandler.m */; };
+		0ED1F4EB2204211A006ED281 /* CMWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4EA2204211A006ED281 /* CMWebViewController.m */; };
+		0ED1F4EF220423BD006ED281 /* CMBaseWKWebViewController+WKNavigationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4EE220423BD006ED281 /* CMBaseWKWebViewController+WKNavigationDelegate.m */; };
+		0ED1F4F2220423CE006ED281 /* CMBaseWKWebViewController+WKUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4F1220423CE006ED281 /* CMBaseWKWebViewController+WKUIDelegate.m */; };
+		0ED1F4F522042EDD006ED281 /* CMBaseWKWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4F422042EDD006ED281 /* CMBaseWKWebViewController.m */; };
+		0ED1F4F922043A33006ED281 /* CMWKProcessPoolHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4F822043A33006ED281 /* CMWKProcessPoolHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E7FEB49220C0D5D00F7592C /* CMTopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMTopView.h; sourceTree = "<group>"; };
+		0E7FEB4A220C0D5D00F7592C /* CMTopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMTopView.m; sourceTree = "<group>"; };
+		0E7FEB4C220C28E700F7592C /* CMBaseWKWebViewController+UITextFieldDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CMBaseWKWebViewController+UITextFieldDelegate.h"; sourceTree = "<group>"; };
+		0E7FEB4D220C28E700F7592C /* CMBaseWKWebViewController+UITextFieldDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CMBaseWKWebViewController+UITextFieldDelegate.m"; sourceTree = "<group>"; };
 		0ED1F4CC2204203C006ED281 /* CustomMultipleWebViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomMultipleWebViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ED1F4CF2204203C006ED281 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0ED1F4D02204203C006ED281 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -31,16 +37,16 @@
 		0ED1F4DB2204203D006ED281 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0ED1F4DD2204203D006ED281 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0ED1F4DE2204203D006ED281 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0ED1F4E92204211A006ED281 /* CustomMultipleWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomMultipleWebViewController.h; sourceTree = "<group>"; };
-		0ED1F4EA2204211A006ED281 /* CustomMultipleWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomMultipleWebViewController.m; sourceTree = "<group>"; };
-		0ED1F4ED220423BD006ED281 /* BaseWKWebViewController+WKNavigationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BaseWKWebViewController+WKNavigationDelegate.h"; sourceTree = "<group>"; };
-		0ED1F4EE220423BD006ED281 /* BaseWKWebViewController+WKNavigationDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "BaseWKWebViewController+WKNavigationDelegate.m"; sourceTree = "<group>"; };
-		0ED1F4F0220423CE006ED281 /* BaseWKWebViewController+WKUIDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BaseWKWebViewController+WKUIDelegate.h"; sourceTree = "<group>"; };
-		0ED1F4F1220423CE006ED281 /* BaseWKWebViewController+WKUIDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "BaseWKWebViewController+WKUIDelegate.m"; sourceTree = "<group>"; };
-		0ED1F4F322042EDD006ED281 /* BaseWKWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseWKWebViewController.h; sourceTree = "<group>"; };
-		0ED1F4F422042EDD006ED281 /* BaseWKWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseWKWebViewController.m; sourceTree = "<group>"; };
-		0ED1F4F722043A33006ED281 /* WKWebViewPoolHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKWebViewPoolHandler.h; sourceTree = "<group>"; };
-		0ED1F4F822043A33006ED281 /* WKWebViewPoolHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKWebViewPoolHandler.m; sourceTree = "<group>"; };
+		0ED1F4E92204211A006ED281 /* CMWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMWebViewController.h; sourceTree = "<group>"; };
+		0ED1F4EA2204211A006ED281 /* CMWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMWebViewController.m; sourceTree = "<group>"; };
+		0ED1F4ED220423BD006ED281 /* CMBaseWKWebViewController+WKNavigationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CMBaseWKWebViewController+WKNavigationDelegate.h"; sourceTree = "<group>"; };
+		0ED1F4EE220423BD006ED281 /* CMBaseWKWebViewController+WKNavigationDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CMBaseWKWebViewController+WKNavigationDelegate.m"; sourceTree = "<group>"; };
+		0ED1F4F0220423CE006ED281 /* CMBaseWKWebViewController+WKUIDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CMBaseWKWebViewController+WKUIDelegate.h"; sourceTree = "<group>"; };
+		0ED1F4F1220423CE006ED281 /* CMBaseWKWebViewController+WKUIDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CMBaseWKWebViewController+WKUIDelegate.m"; sourceTree = "<group>"; };
+		0ED1F4F322042EDD006ED281 /* CMBaseWKWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMBaseWKWebViewController.h; sourceTree = "<group>"; };
+		0ED1F4F422042EDD006ED281 /* CMBaseWKWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMBaseWKWebViewController.m; sourceTree = "<group>"; };
+		0ED1F4F722043A33006ED281 /* CMWKProcessPoolHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMWKProcessPoolHandler.h; sourceTree = "<group>"; };
+		0ED1F4F822043A33006ED281 /* CMWKProcessPoolHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMWKProcessPoolHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +60,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E7FEB48220C0D3800F7592C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0E7FEB49220C0D5D00F7592C /* CMTopView.h */,
+				0E7FEB4A220C0D5D00F7592C /* CMTopView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		0ED1F4C32204203C006ED281 = {
 			isa = PBXGroup;
 			children = (
@@ -90,9 +105,9 @@
 		0ED1F4E522042083006ED281 /* CustomMultipleWebView */ = {
 			isa = PBXGroup;
 			children = (
-				0ED1F4F622042F9A006ED281 /* BaseWKWebViewController */,
-				0ED1F4E92204211A006ED281 /* CustomMultipleWebViewController.h */,
-				0ED1F4EA2204211A006ED281 /* CustomMultipleWebViewController.m */,
+				0ED1F4F622042F9A006ED281 /* CMBaseWKWebView */,
+				0ED1F4E92204211A006ED281 /* CMWebViewController.h */,
+				0ED1F4EA2204211A006ED281 /* CMWebViewController.m */,
 			);
 			path = CustomMultipleWebView;
 			sourceTree = "<group>";
@@ -100,24 +115,27 @@
 		0ED1F4EC2204238B006ED281 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
-				0ED1F4ED220423BD006ED281 /* BaseWKWebViewController+WKNavigationDelegate.h */,
-				0ED1F4EE220423BD006ED281 /* BaseWKWebViewController+WKNavigationDelegate.m */,
-				0ED1F4F0220423CE006ED281 /* BaseWKWebViewController+WKUIDelegate.h */,
-				0ED1F4F1220423CE006ED281 /* BaseWKWebViewController+WKUIDelegate.m */,
+				0ED1F4ED220423BD006ED281 /* CMBaseWKWebViewController+WKNavigationDelegate.h */,
+				0ED1F4EE220423BD006ED281 /* CMBaseWKWebViewController+WKNavigationDelegate.m */,
+				0ED1F4F0220423CE006ED281 /* CMBaseWKWebViewController+WKUIDelegate.h */,
+				0ED1F4F1220423CE006ED281 /* CMBaseWKWebViewController+WKUIDelegate.m */,
+				0E7FEB4C220C28E700F7592C /* CMBaseWKWebViewController+UITextFieldDelegate.h */,
+				0E7FEB4D220C28E700F7592C /* CMBaseWKWebViewController+UITextFieldDelegate.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
 		};
-		0ED1F4F622042F9A006ED281 /* BaseWKWebViewController */ = {
+		0ED1F4F622042F9A006ED281 /* CMBaseWKWebView */ = {
 			isa = PBXGroup;
 			children = (
+				0E7FEB48220C0D3800F7592C /* View */,
 				0ED1F4EC2204238B006ED281 /* Additions */,
-				0ED1F4F322042EDD006ED281 /* BaseWKWebViewController.h */,
-				0ED1F4F422042EDD006ED281 /* BaseWKWebViewController.m */,
-				0ED1F4F722043A33006ED281 /* WKWebViewPoolHandler.h */,
-				0ED1F4F822043A33006ED281 /* WKWebViewPoolHandler.m */,
+				0ED1F4F322042EDD006ED281 /* CMBaseWKWebViewController.h */,
+				0ED1F4F422042EDD006ED281 /* CMBaseWKWebViewController.m */,
+				0ED1F4F722043A33006ED281 /* CMWKProcessPoolHandler.h */,
+				0ED1F4F822043A33006ED281 /* CMWKProcessPoolHandler.m */,
 			);
-			path = BaseWKWebViewController;
+			path = CMBaseWKWebView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,14 +208,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0ED1F4EB2204211A006ED281 /* CustomMultipleWebViewController.m in Sources */,
+				0ED1F4EB2204211A006ED281 /* CMWebViewController.m in Sources */,
 				0ED1F4D42204203C006ED281 /* ViewController.m in Sources */,
-				0ED1F4EF220423BD006ED281 /* BaseWKWebViewController+WKNavigationDelegate.m in Sources */,
+				0ED1F4EF220423BD006ED281 /* CMBaseWKWebViewController+WKNavigationDelegate.m in Sources */,
+				0E7FEB4E220C28E700F7592C /* CMBaseWKWebViewController+UITextFieldDelegate.m in Sources */,
 				0ED1F4DF2204203D006ED281 /* main.m in Sources */,
-				0ED1F4F922043A33006ED281 /* WKWebViewPoolHandler.m in Sources */,
+				0ED1F4F922043A33006ED281 /* CMWKProcessPoolHandler.m in Sources */,
 				0ED1F4D12204203C006ED281 /* AppDelegate.m in Sources */,
-				0ED1F4F2220423CE006ED281 /* BaseWKWebViewController+WKUIDelegate.m in Sources */,
-				0ED1F4F522042EDD006ED281 /* BaseWKWebViewController.m in Sources */,
+				0E7FEB4B220C0D5D00F7592C /* CMTopView.m in Sources */,
+				0ED1F4F2220423CE006ED281 /* CMBaseWKWebViewController+WKUIDelegate.m in Sources */,
+				0ED1F4F522042EDD006ED281 /* CMBaseWKWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
