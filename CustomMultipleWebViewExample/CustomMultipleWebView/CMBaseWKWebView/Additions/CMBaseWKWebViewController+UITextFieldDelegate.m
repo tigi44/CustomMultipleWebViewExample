@@ -17,11 +17,13 @@
 
 @implementation CMBaseWKWebViewController (UITextFieldDelegate)
 
--(void)textFieldDidBeginEditing:(UITextField *)textField {
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
     NSLog(@"textFieldDidBeginEditing : %@", textField.text);
 }
 
--(void)textFieldDidEndEditing:(UITextField *)textField {
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
     NSLog(@"textFieldDidEndEditing : %@", textField.text);
     
     NSURL *sURL = [NSURL URLWithString:textField.text];
@@ -39,7 +41,8 @@
     }
 }
 
--(BOOL) textFieldShouldReturn:(UITextField *)textField {
+-(BOOL) textFieldShouldReturn:(UITextField *)textField
+{
     [textField resignFirstResponder];
     
     return YES;

@@ -9,7 +9,8 @@
 #import "CMWebViewController.h"
 
 #import "CMBaseWKWebViewController+WKNavigationDelegate.h"
-#import "CMBaseWKWebViewController+WKUIDelegate.h"
+#import "CMWebViewController+WKUIDelegate.h"
+
 
 @interface CMWebViewController ()
 
@@ -61,7 +62,7 @@
 #pragma mark - private
 
 
-- (WKWebView *)createWebViewWithConfiguration:(WKWebViewConfiguration *)aConfiguration
+- (WKWebView *)createNewWebView:(WKWebViewConfiguration *)aConfiguration
 {
     WKWebView *sNewWebView = [[WKWebView alloc] initWithFrame:[self.webView frame] configuration:aConfiguration];
     
@@ -71,6 +72,32 @@
     
     [_webViews addObject:sNewWebView];
     _activeWebView = sNewWebView;
+    
+    return sNewWebView;
+}
+
+- (WKWebView *)createNewWebViewController:(WKNavigationAction *)aNavigationAction
+{
+    NSURL *sURL = aNavigationAction.request.URL;
+    CMWebViewController *sNewWebViewController = [[CMWebViewController alloc] initWithURL:sURL];
+    
+    [self presentViewController:sNewWebViewController animated:YES completion:nil];
+    
+    return nil;
+}
+
+- (WKWebView *)createWebViewWithConfiguration:(WKWebViewConfiguration *)aConfiguration navigationAction:(WKNavigationAction *)aNavigationAction
+{
+    WKWebView *sNewWebView;
+    
+    switch (_pageType) {
+        case WebViewSinglePageType:
+            sNewWebView = [self createNewWebView:aConfiguration];
+            break;
+        case WebViewMultiplePageType:
+            sNewWebView = [self createNewWebViewController:aNavigationAction];
+            break;
+    }
     
     return sNewWebView;
 }
@@ -89,33 +116,6 @@
     if ([_webViews count] <= 0 || _activeWebView == nil) {
         [self closeWebViewController];
     }
-}
-
-
-#pragma mark - WKUIDelegate
-
-
-- (WKWebView *)webView:(WKWebView *)aWebView createWebViewWithConfiguration:(WKWebViewConfiguration *)aConfiguration forNavigationAction:(WKNavigationAction *)aNavigationAction windowFeatures:(WKWindowFeatures *)aWindowFeatures
-{
-    WKWebView *sNewWebView;
-    
-    if (!aNavigationAction.targetFrame.isMainFrame)
-    {
-        sNewWebView = [self createWebViewWithConfiguration:aConfiguration];
-        [self.view addSubview:sNewWebView];
-    }
-    else
-    {
-        sNewWebView = nil;
-        [aWebView loadRequest:aNavigationAction.request];
-    }
-    
-    return sNewWebView;
-}
-
-- (void)webViewDidClose:(WKWebView *)aWebView
-{
-    [self closeWebView:aWebView];
 }
 
 

@@ -74,10 +74,4 @@
     [self presentViewController:sAlertController animated:YES completion:nil];
 }
 
-
-- (WKWebView *)webView:(WKWebView *)aWebView createWebViewWithConfiguration:(WKWebViewConfiguration *)aConfiguration forNavigationAction:(WKNavigationAction *)aNavigationAction windowFeatures:(WKWindowFeatures *)aWindowFeatures
-{
-    return nil;
-}
-
 @end

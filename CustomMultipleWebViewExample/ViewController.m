@@ -56,6 +56,7 @@
 - (void)openWebView:(id)aSender
 {
     CMWebViewController *sWebView = [[CMWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://www.payco.com"]];
+    [sWebView setPageType:WebViewMultiplePageType];
     
     [self presentViewController:sWebView animated:YES completion:nil];
 }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E7FEB4B220C0D5D00F7592C /* CMTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7FEB4A220C0D5D00F7592C /* CMTopView.m */; };
 		0E7FEB4E220C28E700F7592C /* CMBaseWKWebViewController+UITextFieldDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7FEB4D220C28E700F7592C /* CMBaseWKWebViewController+UITextFieldDelegate.m */; };
+		0E7FEB52220D17AE00F7592C /* CMWebViewController+WKUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7FEB51220D17AE00F7592C /* CMWebViewController+WKUIDelegate.m */; };
 		0ED1F4D12204203C006ED281 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4D02204203C006ED281 /* AppDelegate.m */; };
 		0ED1F4D42204203C006ED281 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4D32204203C006ED281 /* ViewController.m */; };
 		0ED1F4D72204203C006ED281 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ED1F4D52204203C006ED281 /* Main.storyboard */; };
@@ -27,6 +28,8 @@
 		0E7FEB4A220C0D5D00F7592C /* CMTopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMTopView.m; sourceTree = "<group>"; };
 		0E7FEB4C220C28E700F7592C /* CMBaseWKWebViewController+UITextFieldDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CMBaseWKWebViewController+UITextFieldDelegate.h"; sourceTree = "<group>"; };
 		0E7FEB4D220C28E700F7592C /* CMBaseWKWebViewController+UITextFieldDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CMBaseWKWebViewController+UITextFieldDelegate.m"; sourceTree = "<group>"; };
+		0E7FEB50220D17AE00F7592C /* CMWebViewController+WKUIDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CMWebViewController+WKUIDelegate.h"; sourceTree = "<group>"; };
+		0E7FEB51220D17AE00F7592C /* CMWebViewController+WKUIDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CMWebViewController+WKUIDelegate.m"; sourceTree = "<group>"; };
 		0ED1F4CC2204203C006ED281 /* CustomMultipleWebViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomMultipleWebViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ED1F4CF2204203C006ED281 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0ED1F4D02204203C006ED281 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -108,6 +111,8 @@
 				0ED1F4F622042F9A006ED281 /* CMBaseWKWebView */,
 				0ED1F4E92204211A006ED281 /* CMWebViewController.h */,
 				0ED1F4EA2204211A006ED281 /* CMWebViewController.m */,
+				0E7FEB50220D17AE00F7592C /* CMWebViewController+WKUIDelegate.h */,
+				0E7FEB51220D17AE00F7592C /* CMWebViewController+WKUIDelegate.m */,
 			);
 			path = CustomMultipleWebView;
 			sourceTree = "<group>";
@@ -209,6 +214,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0ED1F4EB2204211A006ED281 /* CMWebViewController.m in Sources */,
+				0E7FEB52220D17AE00F7592C /* CMWebViewController+WKUIDelegate.m in Sources */,
 				0ED1F4D42204203C006ED281 /* ViewController.m in Sources */,
 				0ED1F4EF220423BD006ED281 /* CMBaseWKWebViewController+WKNavigationDelegate.m in Sources */,
 				0E7FEB4E220C28E700F7592C /* CMBaseWKWebViewController+UITextFieldDelegate.m in Sources */,

@@ -10,7 +10,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, CMWebViewPageType)
+{
+    WebViewSinglePageType = 0,
+    WebViewMultiplePageType
+};
+
 @interface CMWebViewController : CMBaseWKWebViewController
+
+@property(nonatomic, assign) CMWebViewPageType pageType;
 
 @end
 
