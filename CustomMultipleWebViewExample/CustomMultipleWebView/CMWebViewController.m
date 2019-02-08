@@ -18,6 +18,8 @@
 @property(nonatomic, readwrite) WKWebView                   *activeWebView;
 
 - (void)closeWebViewController;
+- (void)addProgressObserver:(WKWebView *)aWebView;
+- (void)removeProgressObserver:(WKWebView *)aWebView;
 
 @end
 
@@ -48,6 +50,17 @@
     [self setActiveWebView:self.webView];
 }
 
+- (void)dealloc
+{
+    for (WKWebView *sWebView in _webViews)
+    {
+        if (sWebView != self.webView)
+        {
+            [self removeProgressObserver:sWebView];
+        }
+    }
+}
+
 
 #pragma mark - setup
 
@@ -72,6 +85,8 @@
     
     [_webViews addObject:sNewWebView];
     _activeWebView = sNewWebView;
+    
+    [self addProgressObserver:_activeWebView];
     
     return sNewWebView;
 }

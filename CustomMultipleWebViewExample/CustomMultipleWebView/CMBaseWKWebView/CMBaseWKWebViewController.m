@@ -13,6 +13,7 @@
 #import "CMBaseWKWebViewController+WKNavigationDelegate.h"
 #import "CMBaseWKWebViewController+WKUIDelegate.h"
 #import "CMBaseWKWebViewController+UITextFieldDelegate.h"
+#import "CMBaseWKWebViewController+WebViewProgress.h"
 
 
 CGFloat static kTopViewHeight = 50.f;
@@ -20,6 +21,7 @@ CGFloat static kTopViewHeight = 50.f;
 @interface CMBaseWKWebViewController ()
 
 @property(nonatomic, readwrite) CMTopView *topView;
+@property(nonatomic, readwrite) UIProgressView *loadingProgressView;
 @property(nonatomic, readwrite) WKWebView *webView;
 @property(nonatomic, readwrite) WKWebViewConfiguration *webViewConfiguration;
 
@@ -41,7 +43,10 @@ CGFloat static kTopViewHeight = 50.f;
         
         [self setupTopView];
         [self setupWebView];
+        [self setupLoadingProgressView];
         [self loadWebView:aURL];
+        
+        [self addProgressObserver:self.webView];
     }
     
     return self;
@@ -74,6 +79,20 @@ CGFloat static kTopViewHeight = 50.f;
     
     [_topView setFrame:CGRectMake(0, sSafeAreaInsets.top, CGRectGetWidth(_topView.frame), CGRectGetHeight(_topView.frame))];
     [_webView setFrame:CGRectMake(0, CGRectGetMaxY(_topView.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - CGRectGetMaxY(_topView.frame) - sSafeAreaInsets.bottom)];
+    
+    if (kTopViewHeight > 0)
+    {
+        [_loadingProgressView setFrame:CGRectMake(CGRectGetMinX(_topView.urlTextField.frame), CGRectGetMinY(_topView.frame) + CGRectGetMaxY(_topView.urlTextField.frame) - CGRectGetHeight(_loadingProgressView.frame), CGRectGetWidth(_topView.urlTextField.frame), 0)];
+    }
+    else
+    {
+        [_loadingProgressView setFrame:CGRectMake(0, CGRectGetMinY(_webView.frame) - CGRectGetHeight(_loadingProgressView.frame), CGRectGetWidth(_webView.frame), 0)];
+    }
+}
+
+- (void)dealloc
+{
+    [self removeProgressObserver:self.webView];
 }
 
 - (WKWebViewConfiguration *)webViewConfiguration
@@ -100,8 +119,21 @@ CGFloat static kTopViewHeight = 50.f;
     [[_topView urlTextField] setDelegate:self];
     
     [_topView sizeToFit];
+    [_topView layoutIfNeeded];
     
     [self.view addSubview:_topView];
+}
+
+- (void)setupLoadingProgressView
+{
+    _loadingProgressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+    [_loadingProgressView setTrackTintColor:[UIColor clearColor]];
+    [_loadingProgressView setTintColor:[UIColor redColor]];
+    [_loadingProgressView setAlpha:0.f];
+    [_loadingProgressView setClipsToBounds:YES];
+    [_loadingProgressView.layer setCornerRadius:2.f];
+
+    [self.view addSubview:_loadingProgressView];
 }
 
 - (void)setupWebView

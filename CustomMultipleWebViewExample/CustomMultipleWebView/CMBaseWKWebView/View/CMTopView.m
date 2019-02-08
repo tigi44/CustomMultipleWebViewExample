@@ -20,6 +20,7 @@ CGFloat static kBorderBottomLineHeight = 1.f;
     self = [super initWithFrame:aFrame];
     if (self) {
         [self setBackgroundColor:[UIColor whiteColor]];
+        [self setClipsToBounds:YES];
         
         [self setupUrlTextField];
         [self setupCloseButton];
@@ -71,7 +72,7 @@ CGFloat static kBorderBottomLineHeight = 1.f;
 - (void)setupBorderBottomLineView
 {
     _borderBottomLineView = [[UIView alloc] init];
-    [_borderBottomLineView setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:0.5f]];
+    [_borderBottomLineView setBackgroundColor:[[UIColor lightGrayColor] colorWithAlphaComponent:0.1f]];
     
     [self addSubview:_borderBottomLineView];
 }
