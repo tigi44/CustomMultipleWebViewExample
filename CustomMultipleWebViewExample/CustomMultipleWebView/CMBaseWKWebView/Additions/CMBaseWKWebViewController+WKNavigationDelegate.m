@@ -13,6 +13,8 @@
 @interface CMBaseWKWebViewController()
 
 - (CMTopView *)topView;
+- (void)showLoadingProgressView;
+- (void)hideLoadingProgressView;
 
 @end
 
@@ -37,21 +39,27 @@
     NSLog(@"didStartProvisionalNavigation : %@", aWebView.URL);
     
     [[[self topView] urlTextField] setText:aWebView.URL.absoluteString];
+    [self showLoadingProgressView];
 }
 
 - (void)webView:(WKWebView *)aWebView didFailProvisionalNavigation:(null_unspecified WKNavigation *)aNavigation withError:(NSError *)aError
 {
     NSLog(@"didFailProvisionalNavigation : %@, Error :%@", aWebView.URL, [aError description]);
+    
+    [self hideLoadingProgressView];
 }
 
 - (void)webView:(WKWebView *)aWebView didFinishNavigation:(null_unspecified WKNavigation *)aNavigation
 {
     NSLog(@"didFinishNavigation : %@", aWebView.URL);
+    
+    [self hideLoadingProgressView];
 }
 
 - (void)webView:(WKWebView *)aWebView didFailNavigation:(WKNavigation *)aNavigation withError:(NSError *)aError
 {
     NSLog(@"didFailNavigation : %@, Error :%@", aWebView.URL, [aError description]);
+    [self hideLoadingProgressView];
 }
 
 @end

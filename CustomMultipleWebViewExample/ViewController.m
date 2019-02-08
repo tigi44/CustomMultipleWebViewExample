@@ -31,8 +31,8 @@
     
     CGFloat sPositionHorizontalCenter = self.view.frame.size.width / 2;
     CGFloat sPositionVerticalCenter = self.view.frame.size.height / 2;
-    CGFloat sButtonWidth = 200.f;
-    CGFloat sButtonHeight = 200.f;
+    CGFloat sButtonWidth = CGRectGetWidth(_openWebViewButton.frame);
+    CGFloat sButtonHeight = CGRectGetHeight(_openWebViewButton.frame);
     
     [_openWebViewButton setFrame:CGRectMake(sPositionHorizontalCenter - sButtonWidth / 2, sPositionVerticalCenter - sButtonHeight / 2, sButtonWidth, sButtonHeight)];
 }
