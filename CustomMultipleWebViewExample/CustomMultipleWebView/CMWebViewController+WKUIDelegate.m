@@ -6,8 +6,12 @@
 //  Copyright © 2019 tigi. All rights reserved.
 //
 
+#define TRANSITION_WEBVIEW
+
 #import "CMWebViewController+WKUIDelegate.h"
 
+
+static CGFloat kAnimateWebViewDuration = 0.5f;
 
 @interface CMWebViewController()
 
@@ -18,6 +22,7 @@
 
 @implementation CMWebViewController (WKUIDelegate)
 
+
 - (WKWebView *)webView:(WKWebView *)aWebView createWebViewWithConfiguration:(WKWebViewConfiguration *)aConfiguration forNavigationAction:(WKNavigationAction *)aNavigationAction windowFeatures:(WKWindowFeatures *)aWindowFeatures
 {
     WKWebView *sNewWebView;
@@ -25,7 +30,7 @@
     if (!aNavigationAction.targetFrame.isMainFrame)
     {
         sNewWebView = [self createWebViewWithConfiguration:aConfiguration navigationAction:aNavigationAction];
-        [self.view addSubview:sNewWebView];
+        [self animateNewWebView:sNewWebView];
     }
     else
     {
@@ -39,6 +44,33 @@
 - (void)webViewDidClose:(WKWebView *)aWebView
 {
     [self closeWebView:aWebView];
+}
+
+
+#pragma mark - PRIVATE
+
+
+- (void)animateNewWebView:(WKWebView *)aNewWebView
+{
+    if (aNewWebView)
+    {
+#ifdef TRANSITION_WEBVIEW
+        [UIView transitionWithView:self.view
+                          duration:kAnimateWebViewDuration
+                           options:UIViewAnimationOptionTransitionCurlDown
+                        animations:^{ [self.view addSubview:aNewWebView]; }
+                        completion:nil];
+#else
+        [aNewWebView setFrame:CGRectMake(CGRectGetMinX(aNewWebView.frame), CGRectGetMaxY(self.webView.frame), CGRectGetWidth(aNewWebView.frame), CGRectGetHeight(aNewWebView.frame))];
+        
+        [self.view addSubview:aNewWebView];
+        
+        [UIView animateWithDuration:kAnimateWebViewDuration
+                         animations:^{
+                             [aNewWebView setFrame:CGRectMake(CGRectGetMinX(aNewWebView.frame), CGRectGetMinY(self.webView.frame), CGRectGetWidth(aNewWebView.frame), CGRectGetHeight(aNewWebView.frame))];
+                         }];
+#endif
+    }
 }
 
 @end

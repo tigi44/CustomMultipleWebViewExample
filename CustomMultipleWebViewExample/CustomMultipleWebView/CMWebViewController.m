@@ -83,11 +83,6 @@
     [sNewWebView setNavigationDelegate:self];
     [sNewWebView setUIDelegate:self];
     
-    [_webViews addObject:sNewWebView];
-    _activeWebView = sNewWebView;
-    
-    [self addProgressObserver:_activeWebView];
-    
     return sNewWebView;
 }
 
@@ -96,9 +91,22 @@
     NSURL *sURL = aNavigationAction.request.URL;
     CMWebViewController *sNewWebViewController = [[CMWebViewController alloc] initWithURL:sURL];
     
+    [sNewWebViewController setPageType:WebViewMultiplePageType];
+    
     [self presentViewController:sNewWebViewController animated:YES completion:nil];
     
     return nil;
+}
+
+- (void)activeNewWebView:(WKWebView *)aNewWebView
+{
+    if (aNewWebView)
+    {
+        [_webViews addObject:aNewWebView];
+        _activeWebView = aNewWebView;
+        
+        [self addProgressObserver:_activeWebView];
+    }
 }
 
 - (WKWebView *)createWebViewWithConfiguration:(WKWebViewConfiguration *)aConfiguration navigationAction:(WKNavigationAction *)aNavigationAction
@@ -113,6 +121,8 @@
             sNewWebView = [self createNewWebViewController:aNavigationAction];
             break;
     }
+    
+    [self activeNewWebView:sNewWebView];
     
     return sNewWebView;
 }
