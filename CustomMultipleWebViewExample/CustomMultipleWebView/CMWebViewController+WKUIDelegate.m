@@ -30,7 +30,7 @@ static CGFloat kAnimateWebViewDuration = 0.5f;
     if (!aNavigationAction.targetFrame.isMainFrame)
     {
         sNewWebView = [self createWebViewWithConfiguration:aConfiguration navigationAction:aNavigationAction];
-        [self animateNewWebView:sNewWebView];
+        [self animateNewWebView:sNewWebView siblingWebView:aWebView];
     }
     else
     {
@@ -50,7 +50,7 @@ static CGFloat kAnimateWebViewDuration = 0.5f;
 #pragma mark - PRIVATE
 
 
-- (void)animateNewWebView:(WKWebView *)aNewWebView
+- (void)animateNewWebView:(WKWebView *)aNewWebView siblingWebView:(WKWebView *)aSiblingSubview
 {
     if (aNewWebView)
     {
@@ -58,7 +58,7 @@ static CGFloat kAnimateWebViewDuration = 0.5f;
         [UIView transitionWithView:self.view
                           duration:kAnimateWebViewDuration
                            options:UIViewAnimationOptionTransitionCrossDissolve
-                        animations:^{ [self.view addSubview:aNewWebView]; }
+                        animations:^{ [self.view insertSubview:aNewWebView aboveSubview:aSiblingSubview]; }
                         completion:nil];
 #else
         [aNewWebView setFrame:CGRectMake(CGRectGetMinX(aNewWebView.frame), CGRectGetMaxY(self.webView.frame), CGRectGetWidth(aNewWebView.frame), CGRectGetHeight(aNewWebView.frame))];

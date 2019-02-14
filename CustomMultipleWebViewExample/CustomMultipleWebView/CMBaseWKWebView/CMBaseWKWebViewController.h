@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CMBaseWKWebViewController : UIViewController
 
 @property(nonatomic, readonly) CMTopView *topView;
-@property(nonatomic, readonly) WKWebView *webView;
+@property(nonatomic, readwrite) WKWebView *webView;
 
 - (instancetype)initWithURL:(nullable NSURL *)aURL NS_DESIGNATED_INITIALIZER;
 

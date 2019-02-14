@@ -9,16 +9,19 @@
 #import "CMWebViewController+TabOverView.h"
 
 
+static CGFloat kAnimateTabOverCollectionViewDuration = 0.5f;
 static NSInteger kItemCountOnRowOfCollectionView = 2;
 static CGFloat kTabOverViewButtonMarginRight = 30;
 
 @interface CMWebViewController()
 
 @property(nonatomic, readwrite) NSMutableArray<WKWebView *> *webViews;
-@property(nonatomic, readwrite) WKWebView                   *activeWebView;
 
 @property(nonatomic, readwrite) UIButton *tabOverViewButton;
 @property(nonatomic, readwrite) UICollectionView *tabOverViewCollectionView;
+
+- (void)closeWebView:(WKWebView *)aClosingWebView;
+- (void)showActiveWebView;
 
 @end
 
@@ -36,39 +39,46 @@ static CGFloat kTabOverViewButtonMarginRight = 30;
 
 - (void)setupTabOverViewButton
 {
-    CGFloat sTabOverViewButtonPositionX = CGRectGetMinX(self.topView.closeButton.frame) - kTabOverViewButtonMarginRight;
-    CGFloat sTabOverViewButtonPositionY = CGRectGetMinY(self.topView.closeButton.frame);
-    
-    self.tabOverViewButton = [[UIButton alloc] initWithFrame:CGRectMake(sTabOverViewButtonPositionX, sTabOverViewButtonPositionY, CGRectGetWidth(self.topView.closeButton.frame), CGRectGetHeight(self.topView.closeButton.frame))];
-    [self.tabOverViewButton setBackgroundColor:[UIColor whiteColor]];
-    [self.tabOverViewButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [self.tabOverViewButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
-    [[self.tabOverViewButton titleLabel] setAdjustsFontSizeToFitWidth:YES];
-    [self.tabOverViewButton.layer setBorderWidth:1.f];
-    [self.tabOverViewButton.layer setBorderColor:[UIColor lightGrayColor].CGColor];
+    if (self.tabOverViewButton == nil)
+    {
+        CGFloat sTabOverViewButtonPositionX = CGRectGetMinX(self.topView.closeButton.frame) - kTabOverViewButtonMarginRight;
+        CGFloat sTabOverViewButtonPositionY = CGRectGetMinY(self.topView.closeButton.frame);
+        
+        self.tabOverViewButton = [[UIButton alloc] initWithFrame:CGRectMake(sTabOverViewButtonPositionX, sTabOverViewButtonPositionY, CGRectGetWidth(self.topView.closeButton.frame), CGRectGetHeight(self.topView.closeButton.frame))];
+        [self.tabOverViewButton setBackgroundColor:[UIColor whiteColor]];
+        [self.tabOverViewButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [self.tabOverViewButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
+        [[self.tabOverViewButton titleLabel] setFont:[UIFont systemFontOfSize:12.f]];
+        [[self.tabOverViewButton titleLabel] setAdjustsFontSizeToFitWidth:YES];
+        [self.tabOverViewButton.layer setBorderWidth:1.f];
+        [self.tabOverViewButton.layer setBorderColor:[UIColor lightGrayColor].CGColor];
 
-    [self.tabOverViewButton addTarget:self action:@selector(actionTabOverViewButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self.tabOverViewButton addTarget:self action:@selector(actionTabOverViewButton:) forControlEvents:UIControlEventTouchUpInside];
 
-    [self.topView addSubview:self.tabOverViewButton];
+        [self.topView addSubview:self.tabOverViewButton];
+    }
 }
 
 - (void)setupTapOverViewCollectionView
 {
-    self.tabOverViewCollectionView = [[UICollectionView alloc] initWithFrame:self.webView.frame collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
-    
-    CGFloat sItemSize = self.tabOverViewCollectionView.frame.size.width / kItemCountOnRowOfCollectionView;
-    UICollectionViewFlowLayout *sLayout = (UICollectionViewFlowLayout *)[self.tabOverViewCollectionView collectionViewLayout];
-    [sLayout setItemSize:CGSizeMake(sItemSize, sItemSize)];
-    [sLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-    [sLayout setFooterReferenceSize:CGSizeZero];
-    [sLayout setHeaderReferenceSize:CGSizeZero];
-    [sLayout setMinimumLineSpacing:0.0f];
-    [sLayout setMinimumInteritemSpacing:0.0f];
-    
-    [self.tabOverViewCollectionView setBackgroundColor:[UIColor whiteColor]];
-    [self.tabOverViewCollectionView registerClass:[CMTabOverViewModel cellClass] forCellWithReuseIdentifier:NSStringFromClass([CMTabOverViewModel cellClass])];
-    [self.tabOverViewCollectionView setDataSource:self];
-    [self.tabOverViewCollectionView setDelegate:self];
+    if (self.tabOverViewCollectionView == nil)
+    {
+        self.tabOverViewCollectionView = [[UICollectionView alloc] initWithFrame:self.webView.frame collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+        
+        CGFloat sItemSize = self.tabOverViewCollectionView.frame.size.width / kItemCountOnRowOfCollectionView;
+        UICollectionViewFlowLayout *sLayout = (UICollectionViewFlowLayout *)[self.tabOverViewCollectionView collectionViewLayout];
+        [sLayout setItemSize:CGSizeMake(sItemSize, sItemSize)];
+        [sLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+        [sLayout setFooterReferenceSize:CGSizeZero];
+        [sLayout setHeaderReferenceSize:CGSizeZero];
+        [sLayout setMinimumLineSpacing:0.0f];
+        [sLayout setMinimumInteritemSpacing:0.0f];
+        
+        [self.tabOverViewCollectionView setBackgroundColor:[UIColor whiteColor]];
+        [self.tabOverViewCollectionView registerClass:[CMTabOverViewModel cellClass] forCellWithReuseIdentifier:NSStringFromClass([CMTabOverViewModel cellClass])];
+        [self.tabOverViewCollectionView setDataSource:self];
+        [self.tabOverViewCollectionView setDelegate:self];
+    }
 }
 
 - (void)updateTabOverViewButton
@@ -88,7 +98,7 @@ static CGFloat kTabOverViewButtonMarginRight = 30;
     
     __weak UICollectionView *sWeakCollectionView = self.tabOverViewCollectionView;
     [UIView transitionWithView:self.view
-                      duration:1.0f
+                      duration:kAnimateTabOverCollectionViewDuration
                        options:UIViewAnimationOptionTransitionFlipFromRight
                     animations:^{ [self.view addSubview:sWeakCollectionView]; }
                     completion:nil];
@@ -96,11 +106,12 @@ static CGFloat kTabOverViewButtonMarginRight = 30;
 
 - (void)hideTabOverViewCollectionView
 {
-    [self.topView.urlTextField setText:self.activeWebView.URL.absoluteString];
+    [self showActiveWebView];
+    [self.topView.urlTextField setText:self.webView.URL.absoluteString];
     
     __weak UICollectionView *sWeakCollectionView = self.tabOverViewCollectionView;
     [UIView transitionWithView:self.view
-                      duration:1.0f
+                      duration:kAnimateTabOverCollectionViewDuration
                        options:UIViewAnimationOptionTransitionFlipFromLeft
                     animations:^{ [sWeakCollectionView removeFromSuperview]; }
                     completion:nil];
@@ -135,9 +146,9 @@ static CGFloat kTabOverViewButtonMarginRight = 30;
 
 - (void)actionCloseWebView:(UIButton *)aSender
 {
-    WKWebView *sCloseWebView = [self.webViews objectAtIndex:aSender.tag];
+    WKWebView *sClosingWebView = [self.webViews objectAtIndex:aSender.tag];
     
-    [self closeEachWebInTabOverView:sCloseWebView];
+    [self closeEachWebInTabOverView:sClosingWebView];
 }
 
 - (void)actionChangeActiveWebView:(UIButton *)aSender
@@ -151,40 +162,17 @@ static CGFloat kTabOverViewButtonMarginRight = 30;
 #pragma mark - CMTabOverViewDelegate
 
 
-- (void)closeEachWebInTabOverView:(WKWebView *)aCloseWebView
+- (void)closeEachWebInTabOverView:(WKWebView *)aClosingWebView
 {
-    if ([self.webViews count] > 1)
-    {
-        [aCloseWebView removeFromSuperview];
-        [self.webViews removeObject:aCloseWebView];
-        
-        if (aCloseWebView == self.activeWebView)
-        {
-            self.activeWebView = [self.webViews lastObject];
-        }
-        
-        [self.tabOverViewCollectionView reloadData];
-        
-        aCloseWebView = nil;
-    }
+    [self closeWebView:aClosingWebView];
     
+    [self.tabOverViewCollectionView reloadData];
     [self updateTabOverViewButton];
 }
 
 - (void)changeActiveWebView:(WKWebView *)aActiveWebView
 {
-    BOOL sIsFrontOfActive = NO;
-    self.activeWebView = aActiveWebView;
-    
-    for (WKWebView *sWebView in self.webViews)
-    {
-        [sWebView setHidden:sIsFrontOfActive];
-        
-        if (!sIsFrontOfActive && sWebView == self.activeWebView)
-        {
-            sIsFrontOfActive = YES;
-        }
-    }
+    self.webView = aActiveWebView;
     
     [self hideTabOverViewCollectionView];
 }

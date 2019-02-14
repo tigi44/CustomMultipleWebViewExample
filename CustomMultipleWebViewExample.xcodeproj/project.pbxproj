@@ -132,12 +132,12 @@
 			isa = PBXGroup;
 			children = (
 				0ED1F4F622042F9A006ED281 /* CMBaseWKWebView */,
+				0ED1F4E92204211A006ED281 /* CMWebViewController.h */,
+				0ED1F4EA2204211A006ED281 /* CMWebViewController.m */,
 				0E7FEB50220D17AE00F7592C /* CMWebViewController+WKUIDelegate.h */,
 				0E7FEB51220D17AE00F7592C /* CMWebViewController+WKUIDelegate.m */,
 				0E4C3AA12214116900509F10 /* CMWebViewController+TabOverView.h */,
 				0E4C3AA22214116900509F10 /* CMWebViewController+TabOverView.m */,
-				0ED1F4E92204211A006ED281 /* CMWebViewController.h */,
-				0ED1F4EA2204211A006ED281 /* CMWebViewController.m */,
 				0E4C3AAC2215040300509F10 /* CMTabOverView */,
 			);
 			path = CustomMultipleWebView;

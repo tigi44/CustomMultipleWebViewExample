@@ -21,7 +21,6 @@ CGFloat static kTopViewHeight = 50.f;
 
 @property(nonatomic, readwrite) CMTopView *topView;
 @property(nonatomic, readwrite) UIProgressView *loadingProgressView;
-@property(nonatomic, readwrite) WKWebView *webView;
 @property(nonatomic, readwrite) WKWebViewConfiguration *webViewConfiguration;
 
 @end
@@ -44,8 +43,6 @@ CGFloat static kTopViewHeight = 50.f;
         [self setupWebView];
         [self setupLoadingProgressView];
         [self loadWebView:aURL];
-        
-        [self addProgressObserver:self.webView];
     }
     
     return self;
@@ -91,7 +88,7 @@ CGFloat static kTopViewHeight = 50.f;
 
 - (void)dealloc
 {
-    [self removeProgressObserver:self.webView];
+    [self removeProgressObserver:_webView];
 }
 
 - (WKWebViewConfiguration *)webViewConfiguration
@@ -144,6 +141,8 @@ CGFloat static kTopViewHeight = 50.f;
     [_webView setUIDelegate:self];
     
     [self.view addSubview:_webView];
+    
+    [self addProgressObserver:_webView];
 }
 
 

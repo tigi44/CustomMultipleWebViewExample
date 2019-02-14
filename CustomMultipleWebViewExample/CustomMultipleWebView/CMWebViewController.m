@@ -17,7 +17,6 @@
 @interface CMWebViewController ()
 
 @property(nonatomic, readwrite) NSMutableArray<WKWebView *> *webViews;
-@property(nonatomic, readwrite) WKWebView                   *activeWebView;
 
 @property(nonatomic, readwrite) UIButton *tabOverViewButton;
 @property(nonatomic, readwrite) UICollectionView *tabOverViewCollectionView;
@@ -63,8 +62,6 @@
     }
     
     [self activeNewWebView:self.webView];
-    
-    [self.view setNeedsLayout];
 }
 
 - (void)dealloc
@@ -89,15 +86,49 @@
 
 - (void)activeNewWebView:(WKWebView *)aNewWebView
 {
-    if (aNewWebView)
+    if (aNewWebView && ![_webViews containsObject:aNewWebView])
     {
-        [_webViews addObject:aNewWebView];
-        _activeWebView = aNewWebView;
-        
+        NSInteger sNewWebViewIndex = ([_webViews containsObject:self.webView]) ? [_webViews indexOfObject:self.webView] + 1 : 0;
+        [_webViews insertObject:aNewWebView atIndex:sNewWebViewIndex];
+        self.webView = aNewWebView;
+        [self showActiveWebView];
         [self updateTabOverViewButton];
         
-        if (aNewWebView != self.webView)
-            [self addProgressObserver:_activeWebView];
+        if (sNewWebViewIndex > 0)
+        {
+            [self addProgressObserver:self.webView];
+        }
+    }
+}
+
+- (void)showActiveWebView
+{
+    BOOL sIsFrontOfActive = NO;
+    
+    for (WKWebView *sWebView in self.webViews)
+    {
+        [sWebView setHidden:sIsFrontOfActive];
+        
+        if (!sIsFrontOfActive && sWebView == self.webView)
+        {
+            sIsFrontOfActive = YES;
+        }
+    }
+}
+
+- (void)closeWebView:(WKWebView *)aClosingWebView
+{
+    if ([_webViews count] > 1)
+    {
+        if ([_webViews containsObject:aClosingWebView])
+        {
+            [_webViews removeObject:aClosingWebView];
+            [aClosingWebView removeFromSuperview];
+            [self removeProgressObserver:aClosingWebView];
+            aClosingWebView = nil;
+            
+            self.webView = [_webViews lastObject];
+        }
     }
 }
 
@@ -140,22 +171,6 @@
     [self activeNewWebView:sNewWebView];
     
     return sNewWebView;
-}
-
-- (void)closeWebView:(WKWebView *)aClosingWebView
-{
-    if ([_webViews containsObject:aClosingWebView])
-    {
-        [_webViews removeObject:aClosingWebView];
-        [aClosingWebView removeFromSuperview];
-        aClosingWebView = nil;
-        
-        _activeWebView = [_webViews lastObject];
-    }
-    
-    if ([_webViews count] <= 0 || _activeWebView == nil) {
-        [self closeWebViewController];
-    }
 }
 
 
