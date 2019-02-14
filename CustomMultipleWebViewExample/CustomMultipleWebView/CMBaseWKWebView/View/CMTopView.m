@@ -9,9 +9,9 @@
 #import "CMTopView.h"
 
 
-CGFloat static kURLTextFieldMarginLeft = 20.f;
-CGFloat static kCloseButtonMarginRight = 20.f;
-CGFloat static kBorderBottomLineHeight = 1.f;
+static CGFloat kURLTextFieldMarginLeft = 20.f;
+static CGFloat kCloseButtonMarginRight = 20.f;
+static CGFloat kBorderBottomLineHeight = 1.f;
 
 @implementation CMTopView
 
@@ -38,9 +38,9 @@ CGFloat static kBorderBottomLineHeight = 1.f;
 {
     CGFloat sViewWidth = CGRectGetWidth(self.frame);
     CGFloat sViewHeight = CGRectGetHeight(self.frame);
+    CGFloat sURLTextFieldPositionY = sViewHeight / 2 - CGRectGetHeight(_urlTextField.frame) / 2;
     CGFloat sCloseButtonPositionX = sViewWidth - CGRectGetWidth(_closeButton.frame) - kCloseButtonMarginRight;
     CGFloat sCloseButtonPositionY = sViewHeight / 2 - CGRectGetHeight(_closeButton.frame) / 2;
-    CGFloat sURLTextFieldPositionY = sViewHeight / 2 - CGRectGetHeight(_urlTextField.frame) / 2;
     
     [_urlTextField setFrame:CGRectMake(kURLTextFieldMarginLeft, sURLTextFieldPositionY, CGRectGetWidth(_urlTextField.frame), CGRectGetHeight(_urlTextField.frame))];
     [_closeButton setFrame:CGRectMake(sCloseButtonPositionX, sCloseButtonPositionY, CGRectGetWidth(_closeButton.frame), CGRectGetHeight(_closeButton.frame))];

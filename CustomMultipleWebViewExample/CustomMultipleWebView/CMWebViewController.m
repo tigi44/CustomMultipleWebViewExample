@@ -9,13 +9,18 @@
 #import "CMWebViewController.h"
 
 #import "CMBaseWKWebViewController+WKNavigationDelegate.h"
+
 #import "CMWebViewController+WKUIDelegate.h"
+#import "CMWebViewController+TabOverView.h"
 
 
 @interface CMWebViewController ()
 
 @property(nonatomic, readwrite) NSMutableArray<WKWebView *> *webViews;
 @property(nonatomic, readwrite) WKWebView                   *activeWebView;
+
+@property(nonatomic, readwrite) UIButton *tabOverViewButton;
+@property(nonatomic, readwrite) UICollectionView *tabOverViewCollectionView;
 
 - (void)closeWebViewController;
 - (void)addProgressObserver:(WKWebView *)aWebView;
@@ -33,7 +38,7 @@
 {
     self = [super initWithURL:aURL];
     if (self) {
-        [self setupWebViews];
+        _webViews = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -46,8 +51,20 @@
 - (void)viewWillAppear:(BOOL)aAnimated
 {
     [super viewWillAppear:aAnimated];
+}
+
+- (void)viewDidAppear:(BOOL)aAnimated
+{
+    [super viewDidAppear:aAnimated];
     
-    [self setActiveWebView:self.webView];
+    if (_pageType == WebViewSinglePageType)
+    {
+        [self setupTabOverView];
+    }
+    
+    [self activeNewWebView:self.webView];
+    
+    [self.view setNeedsLayout];
 }
 
 - (void)dealloc
@@ -61,19 +78,28 @@
     }
 }
 
-
-#pragma mark - setup
-
-
-- (void)setupWebViews
+- (void)viewWillLayoutSubviews
 {
-    _webViews = [[NSMutableArray alloc] init];
-    [_webViews addObject:self.webView];
+    [super viewWillLayoutSubviews];
 }
 
 
 #pragma mark - private
 
+
+- (void)activeNewWebView:(WKWebView *)aNewWebView
+{
+    if (aNewWebView)
+    {
+        [_webViews addObject:aNewWebView];
+        _activeWebView = aNewWebView;
+        
+        [self updateTabOverViewButton];
+        
+        if (aNewWebView != self.webView)
+            [self addProgressObserver:_activeWebView];
+    }
+}
 
 - (WKWebView *)createNewWebView:(WKWebViewConfiguration *)aConfiguration
 {
@@ -96,17 +122,6 @@
     [self presentViewController:sNewWebViewController animated:YES completion:nil];
     
     return nil;
-}
-
-- (void)activeNewWebView:(WKWebView *)aNewWebView
-{
-    if (aNewWebView)
-    {
-        [_webViews addObject:aNewWebView];
-        _activeWebView = aNewWebView;
-        
-        [self addProgressObserver:_activeWebView];
-    }
 }
 
 - (WKWebView *)createWebViewWithConfiguration:(WKWebViewConfiguration *)aConfiguration navigationAction:(WKNavigationAction *)aNavigationAction

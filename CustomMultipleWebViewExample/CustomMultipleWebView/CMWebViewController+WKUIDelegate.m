@@ -57,7 +57,7 @@ static CGFloat kAnimateWebViewDuration = 0.5f;
 #ifdef TRANSITION_WEBVIEW
         [UIView transitionWithView:self.view
                           duration:kAnimateWebViewDuration
-                           options:UIViewAnimationOptionTransitionCurlDown
+                           options:UIViewAnimationOptionTransitionCrossDissolve
                         animations:^{ [self.view addSubview:aNewWebView]; }
                         completion:nil];
 #else
