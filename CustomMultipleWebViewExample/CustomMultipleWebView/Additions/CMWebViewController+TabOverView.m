@@ -99,7 +99,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     [self closeWebView:aClosingWebView];
     
     [self.tabOverViewCollectionView reloadData];
-    [self updateTabOverViewButton];
+    [self updateCountOnTabOverViewButton];
 }
 
 - (void)changeActiveWebView:(WKWebView *)aActiveWebView
