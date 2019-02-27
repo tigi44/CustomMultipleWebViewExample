@@ -8,17 +8,18 @@
 
 #import "CMWebViewController.h"
 
-#import "CMBaseWKWebViewController+WKNavigationDelegate.h"
-
+#import "CMWebViewController+WKNavigationDelegate.h"
 #import "CMWebViewController+WKUIDelegate.h"
+#import "CMWebViewController+UITextFieldDelegate.h"
 #import "CMWebViewController+TabOverView.h"
 
 
 @interface CMWebViewController ()
 
+@property(nonatomic, assign) CMWebViewPageType pageType;
+@property(nonatomic, readwrite) CMTopView *topView;
 @property(nonatomic, readwrite) NSMutableArray<WKWebView *> *webViews;
 
-@property(nonatomic, readwrite) UIButton *tabOverViewButton;
 @property(nonatomic, readwrite) UICollectionView *tabOverViewCollectionView;
 
 - (void)closeWebViewController;
@@ -33,13 +34,29 @@
 #pragma mark - OVERRIDE
 
 
-- (instancetype)initWithURL:(NSURL *)aURL
+- (instancetype)initWithURL:(NSURL *)aURL pageType:(CMWebViewPageType)aPageType
 {
     self = [super initWithURL:aURL];
     if (self) {
         _webViews = [[NSMutableArray alloc] init];
+        _pageType = aPageType;
+        [self setupTopView];
+        
+        switch (_pageType) {
+            case WebViewSinglePageType:
+                [self setupTapOverViewCollectionView];
+                break;
+            case WebViewMultiplePageType:
+                [_topView.tabOverViewButton setHidden:YES];
+                break;
+        }
     }
     return self;
+}
+
+- (instancetype)initWithURL:(NSURL *)aURL
+{
+    return [self initWithURL:aURL pageType:WebViewSinglePageType];
 }
 
 - (void)viewDidLoad
@@ -55,11 +72,6 @@
 - (void)viewDidAppear:(BOOL)aAnimated
 {
     [super viewDidAppear:aAnimated];
-    
-    if (_pageType == WebViewSinglePageType)
-    {
-        [self setupTabOverView];
-    }
     
     [self activeNewWebView:self.webView];
 }
@@ -78,11 +90,33 @@
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
+    
+    UIEdgeInsets sSafeAreaInsets = [[[UIApplication sharedApplication] keyWindow] safeAreaInsets];
+    
+    [_topView setFrame:CGRectMake(0, sSafeAreaInsets.top, CGRectGetWidth(_topView.frame), CGRectGetHeight(_topView.frame))];
+    [self.webView setFrame:CGRectMake(0, CGRectGetMaxY(_topView.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - CGRectGetMaxY(_topView.frame) - sSafeAreaInsets.bottom)];
+    [self.loadingProgressView setFrame:CGRectMake(CGRectGetMinX(_topView.urlTextField.frame), CGRectGetMinY(_topView.frame) + CGRectGetMaxY(_topView.urlTextField.frame) - CGRectGetHeight(self.loadingProgressView.frame), CGRectGetWidth(_topView.urlTextField.frame), 0)];
+    
+    [self layoutTapOverViewCollectionView];
 }
 
 
 #pragma mark - private
 
+
+- (void)setupTopView
+{
+    _topView = [[CMTopView alloc] initWithFrame:CGRectZero];
+    
+    [[_topView urlTextField] setDelegate:self];
+    [[_topView tabOverViewButton] addTarget:self action:@selector(actionTabOverViewButton:) forControlEvents:UIControlEventTouchUpInside];
+    [[_topView closeButton] addTarget:self action:@selector(closeWebViewController) forControlEvents:UIControlEventTouchUpInside];
+    
+    [_topView sizeToFit];
+    [_topView layoutIfNeeded];
+
+    [self.view addSubview:_topView];
+}
 
 - (void)activeNewWebView:(WKWebView *)aNewWebView
 {

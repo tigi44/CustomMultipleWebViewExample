@@ -11,21 +11,19 @@
 
 #import "CMBaseWKWebViewController+WKNavigationDelegate.h"
 #import "CMBaseWKWebViewController+WKUIDelegate.h"
-#import "CMBaseWKWebViewController+UITextFieldDelegate.h"
 #import "CMBaseWKWebViewController+WebViewProgress.h"
 
 
-CGFloat static kTopViewHeight = 50.f;
-
 @interface CMBaseWKWebViewController ()
 
-@property(nonatomic, readwrite) CMTopView *topView;
 @property(nonatomic, readwrite) UIProgressView *loadingProgressView;
-@property(nonatomic, readwrite) WKWebViewConfiguration *webViewConfiguration;
 
 @end
 
 @implementation CMBaseWKWebViewController
+{
+    WKWebViewConfiguration *mWebViewConfiguration;
+}
 
 
 #pragma mark - INIT
@@ -39,7 +37,7 @@ CGFloat static kTopViewHeight = 50.f;
     {
         [self.view setBackgroundColor:[UIColor whiteColor]];
         
-        [self setupTopView];
+        [self webViewConfiguration];
         [self setupWebView];
         [self setupLoadingProgressView];
         [self loadWebView:aURL];
@@ -73,17 +71,8 @@ CGFloat static kTopViewHeight = 50.f;
     
     UIEdgeInsets sSafeAreaInsets = [[[UIApplication sharedApplication] keyWindow] safeAreaInsets];
     
-    [_topView setFrame:CGRectMake(0, sSafeAreaInsets.top, CGRectGetWidth(_topView.frame), CGRectGetHeight(_topView.frame))];
-    [_webView setFrame:CGRectMake(0, CGRectGetMaxY(_topView.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - CGRectGetMaxY(_topView.frame) - sSafeAreaInsets.bottom)];
-    
-    if (kTopViewHeight > 0)
-    {
-        [_loadingProgressView setFrame:CGRectMake(CGRectGetMinX(_topView.urlTextField.frame), CGRectGetMinY(_topView.frame) + CGRectGetMaxY(_topView.urlTextField.frame) - CGRectGetHeight(_loadingProgressView.frame), CGRectGetWidth(_topView.urlTextField.frame), 0)];
-    }
-    else
-    {
-        [_loadingProgressView setFrame:CGRectMake(0, CGRectGetMinY(_webView.frame) - CGRectGetHeight(_loadingProgressView.frame), CGRectGetWidth(_webView.frame), 0)];
-    }
+    [_webView setFrame:CGRectMake(0, sSafeAreaInsets.top, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - sSafeAreaInsets.top - sSafeAreaInsets.bottom)];
+    [_loadingProgressView setFrame:CGRectMake(0, CGRectGetMinY(_webView.frame), CGRectGetWidth(_webView.frame), 0)];
 }
 
 - (void)dealloc
@@ -91,33 +80,20 @@ CGFloat static kTopViewHeight = 50.f;
     [self removeProgressObserver:_webView];
 }
 
-- (WKWebViewConfiguration *)webViewConfiguration
-{
-    if (_webViewConfiguration == nil)
-    {
-        _webViewConfiguration = [[WKWebViewConfiguration alloc] init];
-        _webViewConfiguration.processPool = [CMWKProcessPoolHandler pool];
-        _webViewConfiguration.preferences.javaScriptCanOpenWindowsAutomatically = YES;
-    }
-    
-    return _webViewConfiguration;
-}
-
 
 #pragma mark - SETUP
 
 
-- (void)setupTopView
+- (WKWebViewConfiguration *)webViewConfiguration
 {
-    _topView = [[CMTopView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kTopViewHeight)];
+    if (mWebViewConfiguration == nil)
+    {
+        mWebViewConfiguration = [[WKWebViewConfiguration alloc] init];
+        mWebViewConfiguration.processPool = [CMWKProcessPoolHandler pool];
+        mWebViewConfiguration.preferences.javaScriptCanOpenWindowsAutomatically = YES;
+    }
     
-    [[_topView closeButton] addTarget:self action:@selector(closeWebViewController) forControlEvents:UIControlEventTouchUpInside];
-    [[_topView urlTextField] setDelegate:self];
-    
-    [_topView sizeToFit];
-    [_topView layoutIfNeeded];
-    
-    [self.view addSubview:_topView];
+    return mWebViewConfiguration;
 }
 
 - (void)setupLoadingProgressView
@@ -134,7 +110,7 @@ CGFloat static kTopViewHeight = 50.f;
 
 - (void)setupWebView
 {
-    _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:self.webViewConfiguration];
+    _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:mWebViewConfiguration];
     
     [_webView setAllowsBackForwardNavigationGestures:YES];
     [_webView setNavigationDelegate:self];

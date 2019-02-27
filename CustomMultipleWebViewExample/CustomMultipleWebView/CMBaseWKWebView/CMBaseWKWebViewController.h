@@ -7,13 +7,12 @@
 //
 
 #import <WebKit/WebKit.h>
-#import "CMTopView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CMBaseWKWebViewController : UIViewController
+@interface CMBaseWKWebViewController : UIViewController <WKNavigationDelegate, WKUIDelegate>
 
-@property(nonatomic, readonly) CMTopView *topView;
+@property(nonatomic, readonly) UIProgressView *loadingProgressView;
 @property(nonatomic, readwrite) WKWebView *webView;
 
 - (instancetype)initWithURL:(nullable NSURL *)aURL NS_DESIGNATED_INITIALIZER;

@@ -107,15 +107,13 @@
 - (void)openSinglePageWebView:(id)aSender
 {
     CMWebViewController *sWebView = [[CMWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://www.payco.com"]];
-    [sWebView setPageType:WebViewSinglePageType];
     
     [self presentViewController:sWebView animated:YES completion:nil];
 }
 
 - (void)openMultiplePageWebView:(id)aSender
 {
-    CMWebViewController *sWebView = [[CMWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://www.payco.com"]];
-    [sWebView setPageType:WebViewMultiplePageType];
+    CMWebViewController *sWebView = [[CMWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://www.payco.com"] pageType:WebViewMultiplePageType];
     
     [self presentViewController:sWebView animated:YES completion:nil];
 }

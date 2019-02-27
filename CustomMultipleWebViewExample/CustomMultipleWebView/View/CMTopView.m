@@ -12,6 +12,8 @@
 static CGFloat kURLTextFieldMarginLeft = 20.f;
 static CGFloat kCloseButtonMarginRight = 20.f;
 static CGFloat kBorderBottomLineHeight = 1.f;
+static CGFloat kTabOverViewButtonMarginRight = 30.f;
+static CGFloat kTopViewHeight = 50.f;
 
 @implementation CMTopView
 
@@ -23,6 +25,7 @@ static CGFloat kBorderBottomLineHeight = 1.f;
         [self setClipsToBounds:YES];
         
         [self setupUrlTextField];
+        [self setupTabOverViewButton];
         [self setupCloseButton];
         [self setupBorderBottomLineView];
     }
@@ -43,22 +46,41 @@ static CGFloat kBorderBottomLineHeight = 1.f;
     CGFloat sCloseButtonPositionY = sViewHeight / 2 - CGRectGetHeight(_closeButton.frame) / 2;
     
     [_urlTextField setFrame:CGRectMake(kURLTextFieldMarginLeft, sURLTextFieldPositionY, CGRectGetWidth(_urlTextField.frame), CGRectGetHeight(_urlTextField.frame))];
+    [_tabOverViewButton setFrame:CGRectMake(sCloseButtonPositionX - kTabOverViewButtonMarginRight, sCloseButtonPositionY, CGRectGetWidth(_tabOverViewButton.frame), CGRectGetHeight(_tabOverViewButton.frame))];
     [_closeButton setFrame:CGRectMake(sCloseButtonPositionX, sCloseButtonPositionY, CGRectGetWidth(_closeButton.frame), CGRectGetHeight(_closeButton.frame))];
     [_borderBottomLineView setFrame:CGRectMake(0, sViewHeight - kBorderBottomLineHeight, CGRectGetWidth(_borderBottomLineView.frame), CGRectGetHeight(_borderBottomLineView.frame))];
 }
 
 - (CGSize)sizeThatFits:(CGSize)aSize
 {
-    [_urlTextField setFrame:CGRectMake(0, 0, aSize.width * 3 / 4, aSize.height * 3 / 4)];
-    [_closeButton sizeToFit];
-    [_borderBottomLineView setFrame:CGRectMake(0, 0, aSize.width, kBorderBottomLineHeight)];
+    CGFloat sTopViewWidth = aSize.width <= 0 ? [UIScreen mainScreen].bounds.size.width : aSize.width;
+    CGFloat sTopViewHeight = aSize.height <= kTopViewHeight ? kTopViewHeight : aSize.height;
     
-    return aSize;
+    [_urlTextField setFrame:CGRectMake(0, 0, sTopViewWidth * 3 / 4, sTopViewHeight * 3 / 4)];
+    [_closeButton sizeToFit];
+    [_tabOverViewButton setFrame:_closeButton.bounds];
+    [_borderBottomLineView setFrame:CGRectMake(0, 0, sTopViewWidth, kBorderBottomLineHeight)];
+    
+    return CGSizeMake(sTopViewWidth, sTopViewHeight);
 }
 
 
 #pragma mark - SETUP
 
+
+- (void)setupTabOverViewButton
+{
+    _tabOverViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_tabOverViewButton setBackgroundColor:[UIColor whiteColor]];
+    [_tabOverViewButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_tabOverViewButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
+    [[_tabOverViewButton titleLabel] setFont:[UIFont systemFontOfSize:12.f]];
+    [[_tabOverViewButton titleLabel] setAdjustsFontSizeToFitWidth:YES];
+    [_tabOverViewButton.layer setBorderWidth:1.f];
+    [_tabOverViewButton.layer setBorderColor:[UIColor lightGrayColor].CGColor];
+    
+    [self addSubview:_tabOverViewButton];
+}
 
 - (void)setupCloseButton
 {

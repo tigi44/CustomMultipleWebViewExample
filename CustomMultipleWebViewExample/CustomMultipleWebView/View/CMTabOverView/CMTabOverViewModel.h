@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol CMTabOverViewDelegate <NSObject>
 
 - (void)closeEachWebInTabOverView:(WKWebView *)aCloseWebView;
-- (void)actionChangeActiveWebView:(WKWebView *)aActiveWebView;
+- (void)changeActiveWebView:(WKWebView *)aActiveWebView;
 
 @end
 

@@ -1,21 +1,21 @@
 //
-//  CMBaseWKWebViewController+UITextFieldDelegate.m
+//  CMWebViewController+UITextFieldDelegate.m
 //  CustomMultipleWebViewExample
 //
 //  Created by tigi on 07/02/2019.
 //  Copyright © 2019 tigi. All rights reserved.
 //
 
-#import "CMBaseWKWebViewController+UITextFieldDelegate.h"
+#import "CMWebViewController+UITextFieldDelegate.h"
 
 
-@interface CMBaseWKWebViewController()
+@interface CMWebViewController()
 
 - (void)loadWebView:(NSURL *)aURL;
 
 @end
 
-@implementation CMBaseWKWebViewController (UITextFieldDelegate)
+@implementation CMWebViewController (UITextFieldDelegate)
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {

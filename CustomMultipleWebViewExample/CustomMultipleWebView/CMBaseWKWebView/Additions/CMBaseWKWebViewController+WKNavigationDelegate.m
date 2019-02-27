@@ -7,12 +7,10 @@
 //
 
 #import "CMBaseWKWebViewController+WKNavigationDelegate.h"
-#import "CMTopView.h"
 
 
 @interface CMBaseWKWebViewController()
 
-- (CMTopView *)topView;
 - (void)showLoadingProgressView;
 - (void)hideLoadingProgressView;
 
@@ -38,7 +36,6 @@
 {
     NSLog(@"didStartProvisionalNavigation : %@", aWebView.URL);
     
-    [[[self topView] urlTextField] setText:aWebView.URL.absoluteString];
     [self showLoadingProgressView];
 }
 
