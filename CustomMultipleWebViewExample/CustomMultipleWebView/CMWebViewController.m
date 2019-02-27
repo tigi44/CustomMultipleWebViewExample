@@ -109,7 +109,6 @@
     _topView = [[CMTopView alloc] initWithFrame:CGRectZero];
     
     [[_topView urlTextField] setDelegate:self];
-    [[_topView tabOverViewButton] addTarget:self action:@selector(actionTabOverViewButton:) forControlEvents:UIControlEventTouchUpInside];
     [[_topView closeButton] addTarget:self action:@selector(closeWebViewController) forControlEvents:UIControlEventTouchUpInside];
     
     [_topView sizeToFit];
@@ -126,7 +125,7 @@
         [_webViews insertObject:aNewWebView atIndex:sNewWebViewIndex];
         self.webView = aNewWebView;
         [self showActiveWebView];
-        [self updateTabOverViewButton];
+        [self updateCountOnTabOverViewButton];
         
         if (sNewWebViewIndex > 0)
         {

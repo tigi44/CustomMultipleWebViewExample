@@ -7,24 +7,27 @@
 //
 
 #import "CMTabOverViewModel.h"
+#import "CMTabOverViewCollectionViewCell.h"
 
 @implementation CMTabOverViewModel
 {
     WKWebView *mWebView;
+    id<CMTabOverViewActionDelegate> mTarget;
 }
 
-- (instancetype)initWithWKWebView:(WKWebView *)aWebView
+- (instancetype)initWithWKWebView:(WKWebView *)aWebView actionTarger:(nullable id<CMTabOverViewActionDelegate>)aTarget
 {
     self = [super init];
     if (self) {
         mWebView = aWebView;
+        mTarget = aTarget;
     }
     return self;
 }
 
 - (instancetype)init
 {
-    return [self initWithWKWebView:[WKWebView new]];
+    return [self initWithWKWebView:[WKWebView new] actionTarger:nil];
 }
 
 
@@ -71,12 +74,12 @@
                }
      ];
     
-    if (_delegate)
+    if (mTarget)
     {
         [[aCell boundButton] setTag:mWebView.tag];
         [[aCell closeButton] setTag:mWebView.tag];
-        [[aCell boundButton] addTarget:_delegate action:@selector(actionChangeActiveWebView:) forControlEvents:UIControlEventTouchUpInside];
-        [[aCell closeButton] addTarget:_delegate action:@selector(actionCloseWebView:) forControlEvents:UIControlEventTouchUpInside];
+        [[aCell boundButton] addTarget:mTarget action:@selector(actionChangeActiveWebView:) forControlEvents:UIControlEventTouchUpInside];
+        [[aCell closeButton] addTarget:mTarget action:@selector(actionCloseWebView:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     [aCell sizeToFit];

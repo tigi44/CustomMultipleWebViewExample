@@ -11,13 +11,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CMWebViewController (TabOverView) <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CMTabOverViewDelegate>
+@interface CMWebViewController (TabOverView) <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CMTabOverViewActionDelegate>
 
 - (void)setupTapOverViewCollectionView;
-- (void)updateTabOverViewButton;
+- (void)updateCountOnTabOverViewButton;
 - (void)layoutTapOverViewCollectionView;
-
-- (void)actionTabOverViewButton:(id)aSender;
 
 @end
 

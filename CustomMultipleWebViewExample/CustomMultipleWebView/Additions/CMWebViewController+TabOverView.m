@@ -45,9 +45,11 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     [self.tabOverViewCollectionView registerClass:[CMTabOverViewModel cellClass] forCellWithReuseIdentifier:NSStringFromClass([CMTabOverViewModel cellClass])];
     [self.tabOverViewCollectionView setDataSource:self];
     [self.tabOverViewCollectionView setDelegate:self];
+    
+    [self.topView.tabOverViewButton addTarget:self action:@selector(actionTabOverViewButton:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)updateTabOverViewButton
+- (void)updateCountOnTabOverViewButton
 {
     NSInteger sCountOfTabs = [self.webViews count];
     [self.topView.tabOverViewButton setTitle:[@(sCountOfTabs) stringValue] forState:UIControlStateNormal];
@@ -92,6 +94,21 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
                     completion:nil];
 }
 
+- (void)closeEachWebInTabOverView:(WKWebView *)aClosingWebView
+{
+    [self closeWebView:aClosingWebView];
+    
+    [self.tabOverViewCollectionView reloadData];
+    [self updateTabOverViewButton];
+}
+
+- (void)changeActiveWebView:(WKWebView *)aActiveWebView
+{
+    self.webView = aActiveWebView;
+    
+    [self hideTabOverViewCollectionView];
+}
+
 
 #pragma mark - ACTION
 
@@ -120,7 +137,9 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 }
 
 
-// TODO change to delegate
+#pragma mark - CMTabOverViewActionDelegate
+
+
 - (void)actionCloseWebView:(UIButton *)aSender
 {
     WKWebView *sClosingWebView = [self.webViews objectAtIndex:aSender.tag];
@@ -133,25 +152,6 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     WKWebView *sActiveWebView = [self.webViews objectAtIndex:aSender.tag];
     
     [self changeActiveWebView:sActiveWebView];
-}
-
-// TODO change to private
-#pragma mark - CMTabOverViewDelegate
-
-
-- (void)closeEachWebInTabOverView:(WKWebView *)aClosingWebView
-{
-    [self closeWebView:aClosingWebView];
-    
-    [self.tabOverViewCollectionView reloadData];
-    [self updateTabOverViewButton];
-}
-
-- (void)changeActiveWebView:(WKWebView *)aActiveWebView
-{
-    self.webView = aActiveWebView;
-    
-    [self hideTabOverViewCollectionView];
 }
 
 
@@ -168,8 +168,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     WKWebView *sWebView = [self.webViews objectAtIndex:[aIndexPath row]];
     [sWebView setTag:[aIndexPath row]];
     
-    CMTabOverViewModel *sViewModel = [[CMTabOverViewModel alloc] initWithWKWebView:sWebView];
-    [sViewModel setDelegate:self];
+    CMTabOverViewModel *sViewModel = [[CMTabOverViewModel alloc] initWithWKWebView:sWebView actionTarger:self];
     
     return [sViewModel collectionView:aCollectionView cellForItemAtIndexPath:aIndexPath];
 }

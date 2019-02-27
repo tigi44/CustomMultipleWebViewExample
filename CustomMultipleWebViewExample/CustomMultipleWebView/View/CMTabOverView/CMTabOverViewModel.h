@@ -8,22 +8,21 @@
 
 #import <Foundation/Foundation.h>
 #import <WebKit/WebKit.h>
-#import "CMTabOverViewCollectionViewCell.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol CMTabOverViewDelegate <NSObject>
+@protocol CMTabOverViewActionDelegate <NSObject>
 
-- (void)closeEachWebInTabOverView:(WKWebView *)aCloseWebView;
-- (void)changeActiveWebView:(WKWebView *)aActiveWebView;
+- (void)actionCloseWebView:(UIButton *)aSender;
+- (void)actionChangeActiveWebView:(UIButton *)aSender;
 
 @end
 
+
 @interface CMTabOverViewModel : NSObject
 
-@property(nonatomic, weak) id<CMTabOverViewDelegate> delegate;
-
-- (instancetype)initWithWKWebView:(WKWebView *)aWebView NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithWKWebView:(WKWebView *)aWebView actionTarger:(nullable id<CMTabOverViewActionDelegate>)aTarget NS_DESIGNATED_INITIALIZER;
 
 + (Class)cellClass;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)aCollectionView cellForItemAtIndexPath:(NSIndexPath *)aIndexPath;
