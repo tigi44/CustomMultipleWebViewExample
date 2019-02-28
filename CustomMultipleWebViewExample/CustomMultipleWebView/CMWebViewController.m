@@ -167,9 +167,7 @@
 - (CMProgressWebView *)createNewWebViewController:(WKNavigationAction *)aNavigationAction
 {
     NSURL *sURL = aNavigationAction.request.URL;
-    CMWebViewController *sNewWebViewController = [[CMWebViewController alloc] initWithURL:sURL];
-    
-    [sNewWebViewController setPageType:WebViewMultiplePageType];
+    CMWebViewController *sNewWebViewController = [[CMWebViewController alloc] initWithURL:sURL pageType:WebViewMultiplePageType];
     
     [self presentViewController:sNewWebViewController animated:YES completion:nil];
     
