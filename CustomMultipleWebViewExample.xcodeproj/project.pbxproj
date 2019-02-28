@@ -13,8 +13,8 @@
 		0E7FEB4B220C0D5D00F7592C /* CMTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7FEB4A220C0D5D00F7592C /* CMTopView.m */; };
 		0E7FEB4E220C28E700F7592C /* CMWebViewController+UITextFieldDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7FEB4D220C28E700F7592C /* CMWebViewController+UITextFieldDelegate.m */; };
 		0E7FEB52220D17AE00F7592C /* CMWebViewController+WKUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7FEB51220D17AE00F7592C /* CMWebViewController+WKUIDelegate.m */; };
-		0E7FEB55220D588400F7592C /* CMBaseWKWebViewController+WebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7FEB54220D588400F7592C /* CMBaseWKWebViewController+WebViewProgress.m */; };
 		0EC4D63E22253B4F00886CAB /* CMWebViewController+WKNavigationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC4D63D22253B4F00886CAB /* CMWebViewController+WKNavigationDelegate.m */; };
+		0EC4D6422227A81F00886CAB /* CMProgressWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC4D6412227A81F00886CAB /* CMProgressWebView.m */; };
 		0ED1F4D12204203C006ED281 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4D02204203C006ED281 /* AppDelegate.m */; };
 		0ED1F4D42204203C006ED281 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4D32204203C006ED281 /* ViewController.m */; };
 		0ED1F4D72204203C006ED281 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ED1F4D52204203C006ED281 /* Main.storyboard */; };
@@ -41,10 +41,10 @@
 		0E7FEB4D220C28E700F7592C /* CMWebViewController+UITextFieldDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CMWebViewController+UITextFieldDelegate.m"; sourceTree = "<group>"; };
 		0E7FEB50220D17AE00F7592C /* CMWebViewController+WKUIDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CMWebViewController+WKUIDelegate.h"; sourceTree = "<group>"; };
 		0E7FEB51220D17AE00F7592C /* CMWebViewController+WKUIDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CMWebViewController+WKUIDelegate.m"; sourceTree = "<group>"; };
-		0E7FEB53220D588400F7592C /* CMBaseWKWebViewController+WebViewProgress.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CMBaseWKWebViewController+WebViewProgress.h"; sourceTree = "<group>"; };
-		0E7FEB54220D588400F7592C /* CMBaseWKWebViewController+WebViewProgress.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CMBaseWKWebViewController+WebViewProgress.m"; sourceTree = "<group>"; };
 		0EC4D63C22253B4F00886CAB /* CMWebViewController+WKNavigationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CMWebViewController+WKNavigationDelegate.h"; sourceTree = "<group>"; };
 		0EC4D63D22253B4F00886CAB /* CMWebViewController+WKNavigationDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CMWebViewController+WKNavigationDelegate.m"; sourceTree = "<group>"; };
+		0EC4D6402227A81F00886CAB /* CMProgressWebView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMProgressWebView.h; sourceTree = "<group>"; };
+		0EC4D6412227A81F00886CAB /* CMProgressWebView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMProgressWebView.m; sourceTree = "<group>"; };
 		0ED1F4CC2204203C006ED281 /* CustomMultipleWebViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomMultipleWebViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ED1F4CF2204203C006ED281 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0ED1F4D02204203C006ED281 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -123,6 +123,15 @@
 			path = WKProcessPool;
 			sourceTree = "<group>";
 		};
+		0EC4D63F2227A7DA00886CAB /* CMProgressWebView */ = {
+			isa = PBXGroup;
+			children = (
+				0EC4D6402227A81F00886CAB /* CMProgressWebView.h */,
+				0EC4D6412227A81F00886CAB /* CMProgressWebView.m */,
+			);
+			path = CMProgressWebView;
+			sourceTree = "<group>";
+		};
 		0ED1F4C32204203C006ED281 = {
 			isa = PBXGroup;
 			children = (
@@ -175,8 +184,6 @@
 				0ED1F4EE220423BD006ED281 /* CMBaseWKWebViewController+WKNavigationDelegate.m */,
 				0ED1F4F0220423CE006ED281 /* CMBaseWKWebViewController+WKUIDelegate.h */,
 				0ED1F4F1220423CE006ED281 /* CMBaseWKWebViewController+WKUIDelegate.m */,
-				0E7FEB53220D588400F7592C /* CMBaseWKWebViewController+WebViewProgress.h */,
-				0E7FEB54220D588400F7592C /* CMBaseWKWebViewController+WebViewProgress.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -184,6 +191,7 @@
 		0ED1F4F622042F9A006ED281 /* CMBaseWKWebView */ = {
 			isa = PBXGroup;
 			children = (
+				0EC4D63F2227A7DA00886CAB /* CMProgressWebView */,
 				0EC4D63B222538CE00886CAB /* WKProcessPool */,
 				0ED1F4EC2204238B006ED281 /* Additions */,
 				0ED1F4F322042EDD006ED281 /* CMBaseWKWebViewController.h */,
@@ -264,11 +272,11 @@
 			files = (
 				0E4C3AAB221503ED00509F10 /* CMTabOverViewModel.m in Sources */,
 				0ED1F4EB2204211A006ED281 /* CMWebViewController.m in Sources */,
+				0EC4D6422227A81F00886CAB /* CMProgressWebView.m in Sources */,
 				0E7FEB52220D17AE00F7592C /* CMWebViewController+WKUIDelegate.m in Sources */,
 				0ED1F4D42204203C006ED281 /* ViewController.m in Sources */,
 				0ED1F4EF220423BD006ED281 /* CMBaseWKWebViewController+WKNavigationDelegate.m in Sources */,
 				0E7FEB4E220C28E700F7592C /* CMWebViewController+UITextFieldDelegate.m in Sources */,
-				0E7FEB55220D588400F7592C /* CMBaseWKWebViewController+WebViewProgress.m in Sources */,
 				0ED1F4DF2204203D006ED281 /* main.m in Sources */,
 				0ED1F4F922043A33006ED281 /* CMWKProcessPoolHandler.m in Sources */,
 				0ED1F4D12204203C006ED281 /* AppDelegate.m in Sources */,

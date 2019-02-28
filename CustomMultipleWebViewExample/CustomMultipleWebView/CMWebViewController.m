@@ -18,13 +18,11 @@
 
 @property(nonatomic, assign) CMWebViewPageType pageType;
 @property(nonatomic, readwrite) CMTopView *topView;
-@property(nonatomic, readwrite) NSMutableArray<WKWebView *> *webViews;
+@property(nonatomic, readwrite) NSMutableArray<CMProgressWebView *> *webViews;
 
 @property(nonatomic, readwrite) UICollectionView *tabOverViewCollectionView;
 
 - (void)closeWebViewController;
-- (void)addProgressObserver:(WKWebView *)aWebView;
-- (void)removeProgressObserver:(WKWebView *)aWebView;
 
 @end
 
@@ -76,17 +74,6 @@
     [self activeNewWebView:self.webView];
 }
 
-- (void)dealloc
-{
-    for (WKWebView *sWebView in _webViews)
-    {
-        if (sWebView != self.webView)
-        {
-            [self removeProgressObserver:sWebView];
-        }
-    }
-}
-
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
@@ -95,7 +82,6 @@
     
     [_topView setFrame:CGRectMake(0, sSafeAreaInsets.top, CGRectGetWidth(_topView.frame), CGRectGetHeight(_topView.frame))];
     [self.webView setFrame:CGRectMake(0, CGRectGetMaxY(_topView.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - CGRectGetMaxY(_topView.frame) - sSafeAreaInsets.bottom)];
-    [self.loadingProgressView setFrame:CGRectMake(CGRectGetMinX(_topView.urlTextField.frame), CGRectGetMinY(_topView.frame) + CGRectGetMaxY(_topView.urlTextField.frame) - CGRectGetHeight(self.loadingProgressView.frame), CGRectGetWidth(_topView.urlTextField.frame), 0)];
     
     [self layoutTapOverViewCollectionView];
 }
@@ -117,7 +103,7 @@
     [self.view addSubview:_topView];
 }
 
-- (void)activeNewWebView:(WKWebView *)aNewWebView
+- (void)activeNewWebView:(CMProgressWebView *)aNewWebView
 {
     if (aNewWebView && ![_webViews containsObject:aNewWebView])
     {
@@ -126,11 +112,6 @@
         self.webView = aNewWebView;
         [self showActiveWebView];
         [self updateCountOnTabOverViewButton];
-        
-        if (sNewWebViewIndex > 0)
-        {
-            [self addProgressObserver:self.webView];
-        }
     }
 }
 
@@ -149,7 +130,7 @@
     }
 }
 
-- (BOOL)closeWebView:(WKWebView *)aClosingWebView
+- (BOOL)closeWebView:(CMProgressWebView *)aClosingWebView
 {
     BOOL sResult = NO;
     
@@ -159,7 +140,6 @@
         {
             [_webViews removeObject:aClosingWebView];
             [aClosingWebView removeFromSuperview];
-            [self removeProgressObserver:aClosingWebView];
             
             if (self.webView == aClosingWebView)
             {
@@ -174,18 +154,17 @@
     return sResult;
 }
 
-- (WKWebView *)createNewWebView:(WKWebViewConfiguration *)aConfiguration
+- (CMProgressWebView *)createNewWebView:(WKWebViewConfiguration *)aConfiguration
 {
-    WKWebView *sNewWebView = [[WKWebView alloc] initWithFrame:[self.webView frame] configuration:aConfiguration];
+    CMProgressWebView *sNewWebView = [[CMProgressWebView alloc] initWithFrame:[self.webView frame] configuration:aConfiguration];
     
-    [sNewWebView setAllowsBackForwardNavigationGestures:self.webView.allowsBackForwardNavigationGestures];
     [sNewWebView setNavigationDelegate:self];
     [sNewWebView setUIDelegate:self];
     
     return sNewWebView;
 }
 
-- (WKWebView *)createNewWebViewController:(WKNavigationAction *)aNavigationAction
+- (CMProgressWebView *)createNewWebViewController:(WKNavigationAction *)aNavigationAction
 {
     NSURL *sURL = aNavigationAction.request.URL;
     CMWebViewController *sNewWebViewController = [[CMWebViewController alloc] initWithURL:sURL];
@@ -199,7 +178,7 @@
 
 - (WKWebView *)createWebViewWithConfiguration:(WKWebViewConfiguration *)aConfiguration navigationAction:(WKNavigationAction *)aNavigationAction
 {
-    WKWebView *sNewWebView;
+    CMProgressWebView *sNewWebView;
     
     switch (_pageType) {
         case WebViewSinglePageType:

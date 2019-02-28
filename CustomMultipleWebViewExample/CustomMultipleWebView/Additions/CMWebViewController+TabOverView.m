@@ -15,11 +15,11 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 @interface CMWebViewController()
 
 @property(nonatomic, readwrite) CMTopView *topView;
-@property(nonatomic, readwrite) NSMutableArray<WKWebView *> *webViews;
+@property(nonatomic, readwrite) NSMutableArray<CMProgressWebView *> *webViews;
 
 @property(nonatomic, readwrite) UICollectionView *tabOverViewCollectionView;
 
-- (BOOL)closeWebView:(WKWebView *)aClosingWebView;
+- (BOOL)closeWebView:(CMProgressWebView *)aClosingWebView;
 - (void)showActiveWebView;
 
 @end
@@ -94,7 +94,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
                     completion:nil];
 }
 
-- (void)closeEachWebInTabOverView:(WKWebView *)aClosingWebView
+- (void)closeEachWebInTabOverView:(CMProgressWebView *)aClosingWebView
 {
     NSInteger sIndexOfWebView = [self.webViews indexOfObject:aClosingWebView];
     NSIndexPath *sIndexPath = [NSIndexPath indexPathForRow:sIndexOfWebView inSection:0];
@@ -112,7 +112,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     }];
 }
 
-- (void)changeActiveWebView:(WKWebView *)aActiveWebView
+- (void)changeActiveWebView:(CMProgressWebView *)aActiveWebView
 {
     self.webView = aActiveWebView;
     
@@ -152,14 +152,14 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 
 - (void)actionCloseWebView:(UIButton *)aSender
 {
-    WKWebView *sClosingWebView = [self.webViews objectAtIndex:aSender.tag];
+    CMProgressWebView *sClosingWebView = [self.webViews objectAtIndex:aSender.tag];
     
     [self closeEachWebInTabOverView:sClosingWebView];
 }
 
 - (void)actionChangeActiveWebView:(UIButton *)aSender
 {
-    WKWebView *sActiveWebView = [self.webViews objectAtIndex:aSender.tag];
+    CMProgressWebView *sActiveWebView = [self.webViews objectAtIndex:aSender.tag];
     
     [self changeActiveWebView:sActiveWebView];
 }
