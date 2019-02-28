@@ -149,8 +149,10 @@
     }
 }
 
-- (void)closeWebView:(WKWebView *)aClosingWebView
+- (BOOL)closeWebView:(WKWebView *)aClosingWebView
 {
+    BOOL sResult = NO;
+    
     if ([_webViews count] > 1)
     {
         if ([_webViews containsObject:aClosingWebView])
@@ -161,8 +163,11 @@
             aClosingWebView = nil;
             
             self.webView = [_webViews lastObject];
+            sResult = YES;
         }
     }
+    
+    return sResult;
 }
 
 - (WKWebView *)createNewWebView:(WKWebViewConfiguration *)aConfiguration

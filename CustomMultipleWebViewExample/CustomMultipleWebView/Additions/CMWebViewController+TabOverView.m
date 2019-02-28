@@ -19,7 +19,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 
 @property(nonatomic, readwrite) UICollectionView *tabOverViewCollectionView;
 
-- (void)closeWebView:(WKWebView *)aClosingWebView;
+- (BOOL)closeWebView:(WKWebView *)aClosingWebView;
 - (void)showActiveWebView;
 
 @end
@@ -96,10 +96,20 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 
 - (void)closeEachWebInTabOverView:(WKWebView *)aClosingWebView
 {
-    [self closeWebView:aClosingWebView];
+    NSInteger sIndexOfWebView = [self.webViews indexOfObject:aClosingWebView];
+    NSIndexPath *sIndexPath = [NSIndexPath indexPathForRow:sIndexOfWebView inSection:0];
     
-    [self.tabOverViewCollectionView reloadData];
-    [self updateCountOnTabOverViewButton];
+    [self.tabOverViewCollectionView performBatchUpdates:^{
+        BOOL sIsCloseSuccess = [self closeWebView:aClosingWebView];
+        
+        if (sIsCloseSuccess)
+        {
+            [self.tabOverViewCollectionView deleteItemsAtIndexPaths:@[sIndexPath]];
+            [self updateCountOnTabOverViewButton];
+        }
+    } completion:^(BOOL finished) {
+        [self.tabOverViewCollectionView reloadData];
+    }];
 }
 
 - (void)changeActiveWebView:(WKWebView *)aActiveWebView
