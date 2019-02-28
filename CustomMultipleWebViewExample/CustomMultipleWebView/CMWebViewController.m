@@ -160,9 +160,13 @@
             [_webViews removeObject:aClosingWebView];
             [aClosingWebView removeFromSuperview];
             [self removeProgressObserver:aClosingWebView];
-            aClosingWebView = nil;
             
-            self.webView = [_webViews lastObject];
+            if (self.webView == aClosingWebView)
+            {
+                self.webView = [_webViews lastObject];
+            }
+            
+            aClosingWebView = nil;
             sResult = YES;
         }
     }
