@@ -45,6 +45,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     [self.tabOverViewCollectionView registerClass:[CMTabOverViewModel cellClass] forCellWithReuseIdentifier:NSStringFromClass([CMTabOverViewModel cellClass])];
     [self.tabOverViewCollectionView setDataSource:self];
     [self.tabOverViewCollectionView setDelegate:self];
+    [self.tabOverViewCollectionView setHidden:YES];
     
     [self.topView.tabOverViewButton addTarget:self action:@selector(actionTabOverViewButton:) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -64,6 +65,20 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     [sLayout setItemSize:CGSizeMake(sItemSize, sItemSize)];
 }
 
+- (void)createNewWebViewInTabOverView
+{
+    [self webView:self.webView createWebViewWithConfiguration:[self.webView configuration] forNavigationAction:[WKNavigationAction new] windowFeatures:[WKWindowFeatures new]];
+    [self changeActiveWebView:self.webView];
+}
+
+- (BOOL)isShowingTabOverView
+{
+    BOOL sResult = NO;
+    
+    sResult = ([self.tabOverViewCollectionView superview] && ![self.tabOverViewCollectionView isHidden])? YES : NO;
+    
+    return sResult;
+}
 
 #pragma mark - PRIVATE
 
@@ -77,7 +92,10 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     [UIView transitionWithView:self.view
                       duration:kAnimateTabOverCollectionViewDuration
                        options:UIViewAnimationOptionTransitionFlipFromRight
-                    animations:^{ [self.view addSubview:sWeakCollectionView]; }
+                    animations:^{
+                        [sWeakCollectionView setHidden:NO];
+                        [self.view addSubview:sWeakCollectionView];
+                    }
                     completion:nil];
 }
 
@@ -90,8 +108,12 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     [UIView transitionWithView:self.view
                       duration:kAnimateTabOverCollectionViewDuration
                        options:UIViewAnimationOptionTransitionFlipFromLeft
-                    animations:^{ [sWeakCollectionView removeFromSuperview]; }
-                    completion:nil];
+                    animations:^{
+                        [sWeakCollectionView removeFromSuperview];
+                    }
+                    completion:^(BOOL finished) {
+                        [sWeakCollectionView setHidden:YES];
+                    }];
 }
 
 - (void)closeEachWebInTabOverView:(CMProgressWebView *)aClosingWebView

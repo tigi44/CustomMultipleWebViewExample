@@ -12,6 +12,8 @@
 @interface CMWebViewController()
 
 - (void)loadWebView:(NSURL *)aURL;
+- (void)createNewWebViewInTabOverView;
+- (BOOL)isShowingTabOverView;
 
 @end
 
@@ -37,11 +39,19 @@
             sURL = [sURLComponents URL];
         }
         
+        if ([self isShowingTabOverView])
+        {
+            [self createNewWebViewInTabOverView];
+        }
         [self loadWebView:sURL];
+    }
+    else
+    {
+        [textField setText:@""];
     }
 }
 
--(BOOL) textFieldShouldReturn:(UITextField *)textField
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
     

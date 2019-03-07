@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setupTapOverViewCollectionView;
 - (void)updateCountOnTabOverViewButton;
 - (void)layoutTapOverViewCollectionView;
+- (void)createNewWebViewInTabOverView;
+- (BOOL)isShowingTabOverView;
 
 @end
 
