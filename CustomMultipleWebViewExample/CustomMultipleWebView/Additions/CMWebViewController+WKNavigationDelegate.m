@@ -23,6 +23,28 @@
     [super webView:aWebView didStartProvisionalNavigation:aNavigation];
     
     [[[self topView] urlTextField] setText:aWebView.URL.absoluteString];
+    [[[self topView] refreshButton] setRefreshState:CMRefreshRefreshingState];
+}
+
+- (void)webView:(WKWebView *)aWebView didFailProvisionalNavigation:(WKNavigation *)aNavigation withError:(NSError *)aError
+{
+    [super webView:aWebView didFailProvisionalNavigation:aNavigation withError:aError];
+    
+    [[[self topView] refreshButton] setRefreshState:CMRefreshReadyState];
+}
+
+- (void)webView:(WKWebView *)aWebView didFinishNavigation:(WKNavigation *)aNavigation
+{
+    [super webView:aWebView didFinishNavigation:aNavigation];
+    
+    [[[self topView] refreshButton] setRefreshState:CMRefreshReadyState];
+}
+
+- (void)webView:(WKWebView *)aWebView didFailNavigation:(WKNavigation *)aNavigation withError:(NSError *)aError
+{
+    [super webView:aWebView didFailNavigation:aNavigation withError:aError];
+    
+    [[[self topView] refreshButton] setRefreshState:CMRefreshReadyState];
 }
 
 @end

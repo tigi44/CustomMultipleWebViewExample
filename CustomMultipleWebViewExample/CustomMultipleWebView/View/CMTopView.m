@@ -14,6 +14,7 @@ static CGFloat kCloseButtonMarginRight = 20.f;
 static CGFloat kBorderBottomLineHeight = 1.f;
 static CGFloat kTabOverViewButtonMarginRight = 30.f;
 static CGFloat kTopViewHeight = 50.f;
+static CGFloat kRefreshButtonMarginRight = 8.f;
 
 @implementation CMTopView
 
@@ -28,6 +29,7 @@ static CGFloat kTopViewHeight = 50.f;
         [self setupTabOverViewButton];
         [self setupCloseButton];
         [self setupBorderBottomLineView];
+        [self setupRefreshButton];
     }
     return self;
 }
@@ -60,6 +62,7 @@ static CGFloat kTopViewHeight = 50.f;
     [_closeButton sizeToFit];
     [_tabOverViewButton setFrame:_closeButton.bounds];
     [_borderBottomLineView setFrame:CGRectMake(0, 0, sTopViewWidth, kBorderBottomLineHeight)];
+    [_refreshButton setFrame:CGRectMake(0, 0, sTopViewHeight / 4 + kRefreshButtonMarginRight, sTopViewHeight / 4)];
     
     return CGSizeMake(sTopViewWidth, sTopViewHeight);
 }
@@ -113,6 +116,15 @@ static CGFloat kTopViewHeight = 50.f;
     _urlTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 
     [self addSubview:_urlTextField];
+}
+
+- (void)setupRefreshButton
+{
+    _refreshButton = [[CMRefreshButton alloc] initWithFrame:CGRectZero];
+    _refreshButton.contentEdgeInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, kRefreshButtonMarginRight);
+    
+    _urlTextField.rightView = _refreshButton;
+    _urlTextField.rightViewMode = UITextFieldViewModeUnlessEditing;
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CMRefreshButton.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly) UITextField *urlTextField;
 @property(nonatomic, readonly) UIButton *tabOverViewButton;
 @property(nonatomic, readonly) UIButton *closeButton;
+@property(nonatomic, readonly) CMRefreshButton *refreshButton;
 @property(nonatomic, readonly) UIView *borderBottomLineView;
 
 - (instancetype)initWithFrame:(CGRect)frame NS_DESIGNATED_INITIALIZER;
