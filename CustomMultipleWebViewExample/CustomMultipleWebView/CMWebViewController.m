@@ -15,6 +15,8 @@
 #import "CMWebViewController+CMRefreshButtonDelegate.h"
 
 
+static CGFloat kTopViewHeight = 50.f;
+
 @interface CMWebViewController ()
 
 @property(nonatomic, assign) CMWebViewPageType pageType;
@@ -81,7 +83,7 @@
     
     UIEdgeInsets sSafeAreaInsets = [[[UIApplication sharedApplication] keyWindow] safeAreaInsets];
     
-    [_topView setFrame:CGRectMake(0, sSafeAreaInsets.top, CGRectGetWidth(_topView.frame), CGRectGetHeight(_topView.frame))];
+    [_topView setFrame:CGRectMake(0, sSafeAreaInsets.top, CGRectGetWidth(self.view.frame), CGRectGetHeight(_topView.frame))];
     [self.webView setFrame:CGRectMake(0, CGRectGetMaxY(_topView.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - CGRectGetMaxY(_topView.frame) - sSafeAreaInsets.bottom)];
     
     [self layoutTapOverViewCollectionView];
@@ -93,15 +95,12 @@
 
 - (void)setupTopView
 {
-    _topView = [[CMTopView alloc] initWithFrame:CGRectZero];
+    _topView = [[CMTopView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kTopViewHeight)];
     
     [[_topView urlTextField] setDelegate:self];
     [[_topView closeButton] addTarget:self action:@selector(closeWebViewController) forControlEvents:UIControlEventTouchUpInside];
     [[_topView refreshButton] setDelegate:self];
     
-    [_topView sizeToFit];
-    [_topView layoutIfNeeded];
-
     [self.view addSubview:_topView];
 }
 

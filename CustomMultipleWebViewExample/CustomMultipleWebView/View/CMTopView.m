@@ -8,15 +8,14 @@
 
 #import "CMTopView.h"
 
-
-static CGFloat kURLTextFieldMarginLeft = 20.f;
-static CGFloat kCloseButtonMarginRight = 20.f;
+static CGFloat kStackViewSpacing = 20.f;
 static CGFloat kBorderBottomLineHeight = 1.f;
-static CGFloat kTabOverViewButtonMarginRight = 30.f;
-static CGFloat kTopViewHeight = 50.f;
 static CGFloat kRefreshButtonMarginRight = 8.f;
 
 @implementation CMTopView
+{
+    UIStackView *mStackView;
+}
 
 - (instancetype)initWithFrame:(CGRect)aFrame
 {
@@ -25,11 +24,7 @@ static CGFloat kRefreshButtonMarginRight = 8.f;
         [self setBackgroundColor:[UIColor whiteColor]];
         [self setClipsToBounds:YES];
         
-        [self setupUrlTextField];
-        [self setupTabOverViewButton];
-        [self setupCloseButton];
-        [self setupBorderBottomLineView];
-        [self setupRefreshButton];
+        [self setupSubViews];
     }
     return self;
 }
@@ -39,67 +34,53 @@ static CGFloat kRefreshButtonMarginRight = 8.f;
     return [self initWithFrame:CGRectZero];
 }
 
-- (void)layoutSubviews
-{
-    CGFloat sViewWidth = CGRectGetWidth(self.frame);
-    CGFloat sViewHeight = CGRectGetHeight(self.frame);
-    CGFloat sURLTextFieldPositionY = sViewHeight / 2 - CGRectGetHeight(_urlTextField.frame) / 2;
-    CGFloat sCloseButtonPositionX = sViewWidth - CGRectGetWidth(_closeButton.frame) - kCloseButtonMarginRight;
-    CGFloat sCloseButtonPositionY = sViewHeight / 2 - CGRectGetHeight(_closeButton.frame) / 2;
-    
-    [_urlTextField setFrame:CGRectMake(kURLTextFieldMarginLeft, sURLTextFieldPositionY, CGRectGetWidth(_urlTextField.frame), CGRectGetHeight(_urlTextField.frame))];
-    [_tabOverViewButton setFrame:CGRectMake(sCloseButtonPositionX - kTabOverViewButtonMarginRight, sCloseButtonPositionY, CGRectGetWidth(_tabOverViewButton.frame), CGRectGetHeight(_tabOverViewButton.frame))];
-    [_closeButton setFrame:CGRectMake(sCloseButtonPositionX, sCloseButtonPositionY, CGRectGetWidth(_closeButton.frame), CGRectGetHeight(_closeButton.frame))];
-    [_borderBottomLineView setFrame:CGRectMake(0, sViewHeight - kBorderBottomLineHeight, CGRectGetWidth(_borderBottomLineView.frame), CGRectGetHeight(_borderBottomLineView.frame))];
-}
-
-- (CGSize)sizeThatFits:(CGSize)aSize
-{
-    CGFloat sTopViewWidth = aSize.width <= 0 ? [UIScreen mainScreen].bounds.size.width : aSize.width;
-    CGFloat sTopViewHeight = aSize.height <= kTopViewHeight ? kTopViewHeight : aSize.height;
-    
-    [_urlTextField setFrame:CGRectMake(0, 0, sTopViewWidth * 3 / 4, sTopViewHeight * 3 / 4)];
-    [_closeButton sizeToFit];
-    [_tabOverViewButton setFrame:_closeButton.bounds];
-    [_borderBottomLineView setFrame:CGRectMake(0, 0, sTopViewWidth, kBorderBottomLineHeight)];
-    [_refreshButton setFrame:CGRectMake(0, 0, sTopViewHeight / 4 + kRefreshButtonMarginRight, sTopViewHeight / 4)];
-    
-    return CGSizeMake(sTopViewWidth, sTopViewHeight);
-}
-
 
 #pragma mark - SETUP
 
 
-- (void)setupTabOverViewButton
+- (void)setupSubViews
 {
-    _tabOverViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_tabOverViewButton setBackgroundColor:[UIColor whiteColor]];
-    [_tabOverViewButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [_tabOverViewButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
-    [[_tabOverViewButton titleLabel] setFont:[UIFont systemFontOfSize:12.f]];
-    [[_tabOverViewButton titleLabel] setAdjustsFontSizeToFitWidth:YES];
-    [_tabOverViewButton.layer setBorderWidth:1.f];
-    [_tabOverViewButton.layer setBorderColor:[UIColor lightGrayColor].CGColor];
+    mStackView = [[UIStackView alloc] init];
+    mStackView.axis = UILayoutConstraintAxisHorizontal;
+    mStackView.distribution = UIStackViewDistributionFill;
+    mStackView.spacing = kStackViewSpacing;
+    mStackView.alignment = UIStackViewAlignmentCenter;
     
-    [self addSubview:_tabOverViewButton];
-}
-
-- (void)setupCloseButton
-{
-    _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_closeButton setImage:[UIImage imageNamed:@"closeButtonImage"] forState:UIControlStateNormal];
-    [_closeButton setBackgroundColor:[UIColor whiteColor]];
+    [self addSubview:mStackView];
     
-    [self addSubview:_closeButton];
-}
-
-- (void)setupBorderBottomLineView
-{
-    _borderBottomLineView = [[UIView alloc] init];
-    [_borderBottomLineView setBackgroundColor:[[UIColor lightGrayColor] colorWithAlphaComponent:0.1f]];
+    mStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    [mStackView.topAnchor constraintEqualToAnchor:self.topAnchor constant:0.f].active = YES;
+    [mStackView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:0.f].active = YES;
+    [mStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:kStackViewSpacing/2].active = YES;
+    [mStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-kStackViewSpacing/2].active = YES;
+    
+    _borderBottomLineView = [[UIView alloc] initWithFrame:CGRectZero];
+    _borderBottomLineView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.1f];
     
     [self addSubview:_borderBottomLineView];
+    
+    _borderBottomLineView.translatesAutoresizingMaskIntoConstraints = NO;
+    [_borderBottomLineView.heightAnchor constraintEqualToConstant:kBorderBottomLineHeight].active = YES;
+    [_borderBottomLineView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-kBorderBottomLineHeight].active = YES;
+    [_borderBottomLineView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:0.f].active = YES;
+    [_borderBottomLineView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:0.f].active = YES;
+    
+    [self setupUrlTextField];
+    [self setupTabOverViewButton];
+    [self setupCloseButton];
+}
+
+- (void)setupRefreshButton
+{
+    _refreshButton = [[CMRefreshButton alloc] initWithFrame:CGRectZero];
+    _refreshButton.contentEdgeInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, kRefreshButtonMarginRight);
+    
+    _refreshButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [_refreshButton.widthAnchor constraintEqualToConstant:CGRectGetHeight(self.frame) / 4 + kRefreshButtonMarginRight].active = YES;
+    [_refreshButton.heightAnchor constraintEqualToConstant:CGRectGetHeight(self.frame) / 4].active = YES;
+    
+    _urlTextField.rightView = _refreshButton;
+    _urlTextField.rightViewMode = UITextFieldViewModeUnlessEditing;
 }
 
 - (void)setupUrlTextField
@@ -114,17 +95,47 @@ static CGFloat kRefreshButtonMarginRight = 8.f;
     _urlTextField.returnKeyType = UIReturnKeyDone;
     _urlTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _urlTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-
-    [self addSubview:_urlTextField];
+    
+    _urlTextField.translatesAutoresizingMaskIntoConstraints = NO;
+//    [_urlTextField.widthAnchor constraintEqualToConstant:CGRectGetWidth(self.frame) * 3 / 4].active = YES;
+    [_urlTextField.heightAnchor constraintEqualToConstant:CGRectGetHeight(self.frame) * 3 / 4].active = YES;
+    
+    [mStackView addArrangedSubview:_urlTextField];
+    
+    [self setupRefreshButton];
 }
 
-- (void)setupRefreshButton
+- (void)setupTabOverViewButton
 {
-    _refreshButton = [[CMRefreshButton alloc] initWithFrame:CGRectZero];
-    _refreshButton.contentEdgeInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, kRefreshButtonMarginRight);
+    _tabOverViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_tabOverViewButton setBackgroundColor:[UIColor whiteColor]];
+    [_tabOverViewButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_tabOverViewButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
+    [[_tabOverViewButton titleLabel] setFont:[UIFont systemFontOfSize:12.f]];
+    [[_tabOverViewButton titleLabel] setAdjustsFontSizeToFitWidth:YES];
+    [_tabOverViewButton.layer setBorderWidth:1.f];
+    [_tabOverViewButton.layer setBorderColor:[UIColor lightGrayColor].CGColor];
     
-    _urlTextField.rightView = _refreshButton;
-    _urlTextField.rightViewMode = UITextFieldViewModeUnlessEditing;
+    _tabOverViewButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [_tabOverViewButton.widthAnchor constraintEqualToConstant:CGRectGetHeight(self.frame) * 3 / 5].active = YES;
+    [_tabOverViewButton.heightAnchor constraintEqualToConstant:CGRectGetHeight(self.frame) * 3 / 5].active = YES;
+    [mStackView addArrangedSubview:_tabOverViewButton];
+}
+
+- (void)setupCloseButton
+{
+    _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _closeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    _closeButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+    [[_closeButton imageView] setContentMode:UIViewContentModeScaleAspectFit];
+    [_closeButton setImage:[UIImage imageNamed:@"closeButtonImage"] forState:UIControlStateNormal];
+    [_closeButton setBackgroundColor:[UIColor whiteColor]];
+    
+    _closeButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [_closeButton.widthAnchor constraintEqualToConstant:CGRectGetHeight(self.frame) * 3 / 5].active = YES;
+    [_closeButton.heightAnchor constraintEqualToConstant:CGRectGetHeight(self.frame) * 3 / 5].active = YES;
+    [mStackView addArrangedSubview:_closeButton];
+    
 }
 
 @end
