@@ -12,6 +12,7 @@
 #import "CMWebViewController+WKUIDelegate.h"
 #import "CMWebViewController+UITextFieldDelegate.h"
 #import "CMWebViewController+TabOverView.h"
+#import "CMWebViewController+CMRefreshButtonDelegate.h"
 
 
 @interface CMWebViewController ()
@@ -96,6 +97,7 @@
     
     [[_topView urlTextField] setDelegate:self];
     [[_topView closeButton] addTarget:self action:@selector(closeWebViewController) forControlEvents:UIControlEventTouchUpInside];
+    [[_topView refreshButton] setDelegate:self];
     
     [_topView sizeToFit];
     [_topView layoutIfNeeded];
