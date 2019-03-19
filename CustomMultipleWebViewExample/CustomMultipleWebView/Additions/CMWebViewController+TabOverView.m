@@ -73,6 +73,29 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     return sResult;
 }
 
+- (void)toggleTabOverView
+{
+    BOOL sContainedSubView = NO;
+    
+    for (UIView *sSubView in self.view.subviews)
+    {
+        if (sSubView == self.tabOverViewCollectionView)
+        {
+            sContainedSubView = YES;
+            break;
+        }
+    }
+    
+    if (sContainedSubView)
+    {
+        [self hideTabOverViewCollectionView];
+    }
+    else
+    {
+        [self showTabOverViewCollectionView];
+    }
+}
+
 #pragma mark - PRIVATE
 
 
@@ -133,33 +156,6 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     self.webView = aActiveWebView;
     
     [self hideTabOverViewCollectionView];
-}
-
-
-#pragma mark - ACTION
-
-
-- (void)actionTabOverViewButton
-{
-    BOOL sContainedSubView = NO;
-    
-    for (UIView *sSubView in self.view.subviews)
-    {
-        if (sSubView == self.tabOverViewCollectionView)
-        {
-            sContainedSubView = YES;
-            break;
-        }
-    }
-    
-    if (sContainedSubView)
-    {
-        [self hideTabOverViewCollectionView];
-    }
-    else
-    {
-        [self showTabOverViewCollectionView];
-    }
 }
 
 

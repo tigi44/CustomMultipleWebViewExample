@@ -10,7 +10,7 @@
 
 @interface CMWebViewController()
 
-- (void)actionTabOverViewButton;
+- (void)toggleTabOverView;
 - (void)createNewWebViewInTabOverView;
 
 @end
@@ -50,7 +50,7 @@
             [self.webView reload];
             break;
         case CMBottomToolBarButtonItemTab:
-            [self actionTabOverViewButton];
+            [self toggleTabOverView];
             break;
         case CMBottomToolBarButtonItemAdd:
             [self createNewWebViewInTabOverView];
