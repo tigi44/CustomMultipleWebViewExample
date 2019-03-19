@@ -90,14 +90,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0E03379A2240850000531BF2 /* CMTopView */ = {
+		0E03379A2240850000531BF2 /* CMTopToolBar */ = {
 			isa = PBXGroup;
 			children = (
 				0E947EE32240DE8C00B855F3 /* CMURLTextField */,
 				0E0337A22240C87F00531BF2 /* CMTopToolBar.h */,
 				0E0337A32240C87F00531BF2 /* CMTopToolBar.m */,
 			);
-			path = CMTopView;
+			path = CMTopToolBar;
 			sourceTree = "<group>";
 		};
 		0E03379B2240851600531BF2 /* CMBottomToolBar */ = {
@@ -124,7 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				0E03379B2240851600531BF2 /* CMBottomToolBar */,
-				0E03379A2240850000531BF2 /* CMTopView */,
+				0E03379A2240850000531BF2 /* CMTopToolBar */,
 				0E4C3AAC2215040300509F10 /* CMTabOverView */,
 			);
 			path = View;

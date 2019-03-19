@@ -59,6 +59,11 @@
     UIBarButtonItem *sReloadItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(actionToolBarButtonItem:)];
     UIBarButtonItem *sTabItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(actionToolBarButtonItem:)];
     
+    [sBackItem setTintColor:[UIColor grayColor]];
+    [sForwardItem setTintColor:[UIColor grayColor]];
+    [sReloadItem setTintColor:[UIColor grayColor]];
+    [sTabItem setTintColor:[UIColor grayColor]];
+    
     [sBackItem setTag:CMBottomToolBarButtonItemBack];
     [sForwardItem setTag:CMBottomToolBarButtonItemForward];
     [sReloadItem setTag:CMBottomToolBarButtonItemReload];
@@ -75,6 +80,9 @@
     UIBarButtonItem *sFlSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *sAddItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(actionToolBarButtonItem:)];
     UIBarButtonItem *sTabItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(actionToolBarButtonItem:)];
+    
+    [sAddItem setTintColor:[UIColor grayColor]];
+    [sTabItem setTintColor:[UIColor grayColor]];
     
     [sAddItem setTag:CMBottomToolBarButtonItemAdd];
     [sTabItem setTag:CMBottomToolBarButtonItemTab];
