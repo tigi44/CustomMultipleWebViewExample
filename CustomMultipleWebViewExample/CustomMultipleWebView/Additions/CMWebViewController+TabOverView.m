@@ -47,7 +47,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     [self.tabOverViewCollectionView setDelegate:self];
     [self.tabOverViewCollectionView setHidden:YES];
     
-    [self.topView.tabOverViewButton addTarget:self action:@selector(actionTabOverViewButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.topView.tabOverViewButton addTarget:self action:@selector(actionTabOverViewButton) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)updateCountOnTabOverViewButton
@@ -145,7 +145,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 #pragma mark - ACTION
 
 
-- (void)actionTabOverViewButton:(id)aSender
+- (void)actionTabOverViewButton
 {
     BOOL sContainedSubView = NO;
     
