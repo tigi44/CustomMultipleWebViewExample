@@ -15,6 +15,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 @interface CMWebViewController()
 
 @property(nonatomic, readwrite) CMTopView *topView;
+@property(nonatomic, readwrite) CMBottomToolBar *bottomToolBar;
 @property(nonatomic, readwrite) NSMutableArray<CMProgressWebView *> *webViews;
 
 @property(nonatomic, readwrite) UICollectionView *tabOverViewCollectionView;
@@ -87,6 +88,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 {
     [self.topView.urlTextField setText:nil];
     [self.tabOverViewCollectionView reloadData];
+    [[self bottomToolBar] setToolBarType:CMBottomToolBarTypeTab];
     
     __weak UICollectionView *sWeakCollectionView = self.tabOverViewCollectionView;
     [UIView transitionWithView:self.view
@@ -103,6 +105,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 {
     [self showActiveWebView];
     [self.topView.urlTextField setText:self.webView.URL.absoluteString];
+    [[self bottomToolBar] setToolBarType:CMBottomToolBarTypeNormal];
     
     __weak UICollectionView *sWeakCollectionView = self.tabOverViewCollectionView;
     [UIView transitionWithView:self.view

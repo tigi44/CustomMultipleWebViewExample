@@ -10,13 +10,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, CMBottomToolBarType)
+{
+    CMBottomToolBarTypeNormal = 0,
+    CMBottomToolBarTypeTab
+};
 
 typedef NS_ENUM(NSInteger, CMBottomToolBarButtonItemIndex)
 {
     CMBottomToolBarButtonItemBack = 0,
     CMBottomToolBarButtonItemForward,
     CMBottomToolBarButtonItemReload,
-    CMBottomToolBarButtonItemTab
+    CMBottomToolBarButtonItemTab,
+    CMBottomToolBarButtonItemAdd
 };
 
 
@@ -25,6 +31,7 @@ typedef NS_ENUM(NSInteger, CMBottomToolBarButtonItemIndex)
 @interface CMBottomToolBar : UIToolbar
 
 @property(nonatomic, weak) id<CMBottomToolBarDelegate> toolBarDelegate;
+@property(nonatomic, assign) CMBottomToolBarType toolBarType;
 
 - (UIBarButtonItem *)barButtonItemAtIndex:(CMBottomToolBarButtonItemIndex)aIndex;
 

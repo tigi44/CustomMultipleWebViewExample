@@ -22,6 +22,24 @@
 }
 
 
+#pragma mark - override
+
+
+- (void)setToolBarType:(CMBottomToolBarType)aToolBarType
+{
+    _toolBarType = aToolBarType;
+    
+    switch (_toolBarType) {
+        case CMBottomToolBarTypeNormal:
+            [self setupToolBarButtonItems];
+            break;
+        case CMBottomToolBarTypeTab:
+            [self setupToolBarButtonItemsInTabType];
+            break;
+    }
+}
+
+
 #pragma mark - private
 
 
@@ -38,7 +56,22 @@
     [sReloadItem setTag:CMBottomToolBarButtonItemReload];
     [sTabItem setTag:CMBottomToolBarButtonItemTab];
     
-    [self setItems:@[sFlSpace, sBackItem, sFlSpace, sForwardItem, sFlSpace, sFlSpace, sReloadItem, sFlSpace, sTabItem, sFlSpace]];
+    [sBackItem setEnabled:NO];
+    [sForwardItem setEnabled:NO];
+    
+    [self setItems:@[sBackItem, sFlSpace, sForwardItem, sFlSpace, sReloadItem, sFlSpace, sTabItem]];
+}
+
+- (void)setupToolBarButtonItemsInTabType
+{
+    UIBarButtonItem *sFlSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *sAddItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(actionToolBarButtonItem:)];
+    UIBarButtonItem *sTabItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(actionToolBarButtonItem:)];
+    
+    [sAddItem setTag:CMBottomToolBarButtonItemAdd];
+    [sTabItem setTag:CMBottomToolBarButtonItemTab];
+    
+    [self setItems:@[sFlSpace, sAddItem, sFlSpace, sTabItem]];
 }
 
 
