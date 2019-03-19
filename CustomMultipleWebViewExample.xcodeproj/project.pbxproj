@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E03379E2240853D00531BF2 /* CMBottomToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E03379D2240853D00531BF2 /* CMBottomToolBar.m */; };
 		0E4C3AA32214116900509F10 /* CMWebViewController+TabOverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4C3AA22214116900509F10 /* CMWebViewController+TabOverView.m */; };
 		0E4C3AA62214185400509F10 /* CMTabOverViewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4C3AA52214185400509F10 /* CMTabOverViewCollectionViewCell.m */; };
 		0E4C3AAB221503ED00509F10 /* CMTabOverViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4C3AAA221503ED00509F10 /* CMTabOverViewModel.m */; };
@@ -14,7 +15,7 @@
 		0E7FEB4E220C28E700F7592C /* CMWebViewController+UITextFieldDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7FEB4D220C28E700F7592C /* CMWebViewController+UITextFieldDelegate.m */; };
 		0E7FEB52220D17AE00F7592C /* CMWebViewController+WKUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7FEB51220D17AE00F7592C /* CMWebViewController+WKUIDelegate.m */; };
 		0E82706E2232160900DE65A7 /* CMRefreshButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E82706D2232160900DE65A7 /* CMRefreshButton.m */; };
-		0E8270712236018300DE65A7 /* CMWebViewController+CMRefreshButtonDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8270702236018300DE65A7 /* CMWebViewController+CMRefreshButtonDelegate.m */; };
+		0E8270712236018300DE65A7 /* CMWebViewController+ToolBarDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8270702236018300DE65A7 /* CMWebViewController+ToolBarDelegate.m */; };
 		0EC4D63E22253B4F00886CAB /* CMWebViewController+WKNavigationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC4D63D22253B4F00886CAB /* CMWebViewController+WKNavigationDelegate.m */; };
 		0EC4D6422227A81F00886CAB /* CMProgressWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC4D6412227A81F00886CAB /* CMProgressWebView.m */; };
 		0ED1F4D12204203C006ED281 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1F4D02204203C006ED281 /* AppDelegate.m */; };
@@ -31,6 +32,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E03379C2240853D00531BF2 /* CMBottomToolBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMBottomToolBar.h; sourceTree = "<group>"; };
+		0E03379D2240853D00531BF2 /* CMBottomToolBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMBottomToolBar.m; sourceTree = "<group>"; };
 		0E4C3AA12214116900509F10 /* CMWebViewController+TabOverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CMWebViewController+TabOverView.h"; sourceTree = "<group>"; };
 		0E4C3AA22214116900509F10 /* CMWebViewController+TabOverView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CMWebViewController+TabOverView.m"; sourceTree = "<group>"; };
 		0E4C3AA42214185400509F10 /* CMTabOverViewCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMTabOverViewCollectionViewCell.h; sourceTree = "<group>"; };
@@ -45,8 +48,8 @@
 		0E7FEB51220D17AE00F7592C /* CMWebViewController+WKUIDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CMWebViewController+WKUIDelegate.m"; sourceTree = "<group>"; };
 		0E82706C2232160900DE65A7 /* CMRefreshButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMRefreshButton.h; sourceTree = "<group>"; };
 		0E82706D2232160900DE65A7 /* CMRefreshButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMRefreshButton.m; sourceTree = "<group>"; };
-		0E82706F2236018300DE65A7 /* CMWebViewController+CMRefreshButtonDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CMWebViewController+CMRefreshButtonDelegate.h"; sourceTree = "<group>"; };
-		0E8270702236018300DE65A7 /* CMWebViewController+CMRefreshButtonDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CMWebViewController+CMRefreshButtonDelegate.m"; sourceTree = "<group>"; };
+		0E82706F2236018300DE65A7 /* CMWebViewController+ToolBarDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CMWebViewController+ToolBarDelegate.h"; sourceTree = "<group>"; };
+		0E8270702236018300DE65A7 /* CMWebViewController+ToolBarDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CMWebViewController+ToolBarDelegate.m"; sourceTree = "<group>"; };
 		0EC4D63C22253B4F00886CAB /* CMWebViewController+WKNavigationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CMWebViewController+WKNavigationDelegate.h"; sourceTree = "<group>"; };
 		0EC4D63D22253B4F00886CAB /* CMWebViewController+WKNavigationDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CMWebViewController+WKNavigationDelegate.m"; sourceTree = "<group>"; };
 		0EC4D6402227A81F00886CAB /* CMProgressWebView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMProgressWebView.h; sourceTree = "<group>"; };
@@ -84,6 +87,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E03379A2240850000531BF2 /* CMTopView */ = {
+			isa = PBXGroup;
+			children = (
+				0E7FEB49220C0D5D00F7592C /* CMTopView.h */,
+				0E7FEB4A220C0D5D00F7592C /* CMTopView.m */,
+				0E82706C2232160900DE65A7 /* CMRefreshButton.h */,
+				0E82706D2232160900DE65A7 /* CMRefreshButton.m */,
+			);
+			path = CMTopView;
+			sourceTree = "<group>";
+		};
+		0E03379B2240851600531BF2 /* CMBottomToolBar */ = {
+			isa = PBXGroup;
+			children = (
+				0E03379C2240853D00531BF2 /* CMBottomToolBar.h */,
+				0E03379D2240853D00531BF2 /* CMBottomToolBar.m */,
+			);
+			path = CMBottomToolBar;
+			sourceTree = "<group>";
+		};
 		0E4C3AAC2215040300509F10 /* CMTabOverView */ = {
 			isa = PBXGroup;
 			children = (
@@ -98,11 +121,9 @@
 		0E7FEB48220C0D3800F7592C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0E03379B2240851600531BF2 /* CMBottomToolBar */,
+				0E03379A2240850000531BF2 /* CMTopView */,
 				0E4C3AAC2215040300509F10 /* CMTabOverView */,
-				0E7FEB49220C0D5D00F7592C /* CMTopView.h */,
-				0E7FEB4A220C0D5D00F7592C /* CMTopView.m */,
-				0E82706C2232160900DE65A7 /* CMRefreshButton.h */,
-				0E82706D2232160900DE65A7 /* CMRefreshButton.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -118,8 +139,8 @@
 				0E7FEB4D220C28E700F7592C /* CMWebViewController+UITextFieldDelegate.m */,
 				0E4C3AA12214116900509F10 /* CMWebViewController+TabOverView.h */,
 				0E4C3AA22214116900509F10 /* CMWebViewController+TabOverView.m */,
-				0E82706F2236018300DE65A7 /* CMWebViewController+CMRefreshButtonDelegate.h */,
-				0E8270702236018300DE65A7 /* CMWebViewController+CMRefreshButtonDelegate.m */,
+				0E82706F2236018300DE65A7 /* CMWebViewController+ToolBarDelegate.h */,
+				0E8270702236018300DE65A7 /* CMWebViewController+ToolBarDelegate.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -281,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E4C3AAB221503ED00509F10 /* CMTabOverViewModel.m in Sources */,
+				0E03379E2240853D00531BF2 /* CMBottomToolBar.m in Sources */,
 				0ED1F4EB2204211A006ED281 /* CMWebViewController.m in Sources */,
 				0EC4D6422227A81F00886CAB /* CMProgressWebView.m in Sources */,
 				0E7FEB52220D17AE00F7592C /* CMWebViewController+WKUIDelegate.m in Sources */,
@@ -294,7 +316,7 @@
 				0E4C3AA32214116900509F10 /* CMWebViewController+TabOverView.m in Sources */,
 				0E82706E2232160900DE65A7 /* CMRefreshButton.m in Sources */,
 				0E7FEB4B220C0D5D00F7592C /* CMTopView.m in Sources */,
-				0E8270712236018300DE65A7 /* CMWebViewController+CMRefreshButtonDelegate.m in Sources */,
+				0E8270712236018300DE65A7 /* CMWebViewController+ToolBarDelegate.m in Sources */,
 				0EC4D63E22253B4F00886CAB /* CMWebViewController+WKNavigationDelegate.m in Sources */,
 				0ED1F4F2220423CE006ED281 /* CMBaseWKWebViewController+WKUIDelegate.m in Sources */,
 				0ED1F4F522042EDD006ED281 /* CMBaseWKWebViewController.m in Sources */,

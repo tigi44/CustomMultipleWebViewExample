@@ -1,5 +1,5 @@
 //
-//  CMWebViewController+CMRefreshButtonDelegate.h
+//  CMWebViewController+ToolBarDelegate.h
 //  CustomMultipleWebViewExample
 //
 //  Created by tigi on 11/03/2019.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CMWebViewController (CMRefreshButtonDelegate) <CMRefreshButtonDelegate>
+@interface CMWebViewController (ToolBarDelegate) <CMRefreshButtonDelegate, CMBottomToolBarDelegate>
 
 @end
 

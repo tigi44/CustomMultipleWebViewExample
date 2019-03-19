@@ -8,6 +8,7 @@
 
 #import "CMBaseWKWebViewController.h"
 #import "CMTopView.h"
+#import "CMBottomToolBar.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,6 +21,7 @@ typedef NS_ENUM(NSInteger, CMWebViewPageType)
 @interface CMWebViewController : CMBaseWKWebViewController
 
 @property(nonatomic, readonly) CMTopView *topView;
+@property(nonatomic, readonly) CMBottomToolBar *bottomToolBar;
 
 - (instancetype)initWithURL:(NSURL *)aURL pageType:(CMWebViewPageType)aPageType NS_DESIGNATED_INITIALIZER;
 
