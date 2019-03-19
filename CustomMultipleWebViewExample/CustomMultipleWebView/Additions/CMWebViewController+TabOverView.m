@@ -14,7 +14,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 
 @interface CMWebViewController()
 
-@property(nonatomic, readwrite) CMTopView *topView;
+@property(nonatomic, readwrite) CMTopToolBar *topToolBar;
 @property(nonatomic, readwrite) CMBottomToolBar *bottomToolBar;
 @property(nonatomic, readwrite) NSMutableArray<CMProgressWebView *> *webViews;
 
@@ -47,14 +47,6 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     [self.tabOverViewCollectionView setDataSource:self];
     [self.tabOverViewCollectionView setDelegate:self];
     [self.tabOverViewCollectionView setHidden:YES];
-    
-    [self.topView.tabOverViewButton addTarget:self action:@selector(actionTabOverViewButton) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void)updateCountOnTabOverViewButton
-{
-    NSInteger sCountOfTabs = [self.webViews count];
-    [self.topView.tabOverViewButton setTitle:[@(sCountOfTabs) stringValue] forState:UIControlStateNormal];
 }
 
 - (void)layoutTapOverViewCollectionView
@@ -86,9 +78,9 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 
 - (void)showTabOverViewCollectionView
 {
-    [self.topView.urlTextField setText:nil];
+    [self.topToolBar.urlTextField setText:nil];
     [self.tabOverViewCollectionView reloadData];
-    [[self bottomToolBar] setToolBarType:CMBottomToolBarTypeTab];
+    [[self bottomToolBar] setToolBarType:CMBottomToolBarTypeInTab];
     
     __weak UICollectionView *sWeakCollectionView = self.tabOverViewCollectionView;
     [UIView transitionWithView:self.view
@@ -104,7 +96,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 - (void)hideTabOverViewCollectionView
 {
     [self showActiveWebView];
-    [self.topView.urlTextField setText:self.webView.URL.absoluteString];
+    [self.topToolBar.urlTextField setText:self.webView.URL.absoluteString];
     [[self bottomToolBar] setToolBarType:CMBottomToolBarTypeNormal];
     
     __weak UICollectionView *sWeakCollectionView = self.tabOverViewCollectionView;
@@ -130,7 +122,6 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
         if (sIsCloseSuccess)
         {
             [self.tabOverViewCollectionView deleteItemsAtIndexPaths:@[sIndexPath]];
-            [self updateCountOnTabOverViewButton];
         }
     } completion:^(BOOL finished) {
         [self.tabOverViewCollectionView reloadData];

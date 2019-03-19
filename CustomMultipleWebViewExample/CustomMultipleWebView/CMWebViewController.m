@@ -15,13 +15,14 @@
 #import "CMWebViewController+ToolBarDelegate.h"
 
 
-static CGFloat kTopViewHeight = 50.f;
+static CGFloat kTopToolBarHeight = 50.f;
 static CGFloat kBottomToolBarHeight = 44.f;
 
 @interface CMWebViewController ()
 
 @property(nonatomic, assign) CMWebViewPageType pageType;
-@property(nonatomic, readwrite) CMTopView *topView;
+
+@property(nonatomic, readwrite) CMTopToolBar *topToolBar;
 @property(nonatomic, readwrite) CMBottomToolBar *bottomToolBar;
 @property(nonatomic, readwrite) NSMutableArray<CMProgressWebView *> *webViews;
 
@@ -43,7 +44,7 @@ static CGFloat kBottomToolBarHeight = 44.f;
     if (self) {
         _webViews = [[NSMutableArray alloc] init];
         _pageType = aPageType;
-        [self setupTopView];
+        [self setupTopToolBar];
         [self setupBottomToolBar];
         
         switch (_pageType) {
@@ -51,7 +52,7 @@ static CGFloat kBottomToolBarHeight = 44.f;
                 [self setupTapOverViewCollectionView];
                 break;
             case WebViewMultiplePageType:
-                [_topView.tabOverViewButton setHidden:YES];
+                [_bottomToolBar setToolBarType:CMBottomToolBarTypeNoneTab];
                 break;
         }
     }
@@ -86,8 +87,8 @@ static CGFloat kBottomToolBarHeight = 44.f;
     
     UIEdgeInsets sSafeAreaInsets = [[[UIApplication sharedApplication] keyWindow] safeAreaInsets];
     
-    [_topView setFrame:CGRectMake(0, sSafeAreaInsets.top, CGRectGetWidth(_topView.frame), CGRectGetHeight(_topView.frame))];
-    [self.webView setFrame:CGRectMake(0, CGRectGetMaxY(_topView.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - CGRectGetMaxY(_topView.frame) - CGRectGetHeight(_bottomToolBar.frame) - sSafeAreaInsets.bottom)];
+    [_topToolBar setFrame:CGRectMake(0, sSafeAreaInsets.top, CGRectGetWidth(_topToolBar.frame), CGRectGetHeight(_topToolBar.frame))];
+    [self.webView setFrame:CGRectMake(0, CGRectGetMaxY(_topToolBar.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - CGRectGetMaxY(_topToolBar.frame) - CGRectGetHeight(_bottomToolBar.frame) - sSafeAreaInsets.bottom)];
     [_bottomToolBar setFrame:CGRectMake(0, CGRectGetMaxY(self.webView.frame), CGRectGetWidth(_bottomToolBar.frame), CGRectGetHeight(_bottomToolBar.frame))];
     
     [self layoutTapOverViewCollectionView];
@@ -97,15 +98,19 @@ static CGFloat kBottomToolBarHeight = 44.f;
 #pragma mark - setup
 
 
-- (void)setupTopView
+- (void)setupTopToolBar
 {
-    _topView = [[CMTopView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kTopViewHeight)];
+    _topToolBar = [[CMTopToolBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kTopToolBarHeight)];
     
-    [[_topView urlTextField] setDelegate:self];
-    [[_topView closeButton] addTarget:self action:@selector(closeWebViewController) forControlEvents:UIControlEventTouchUpInside];
-    [[_topView refreshButton] setDelegate:self];
+    [[_topToolBar urlTextField] setDelegate:self];
+    [[[_topToolBar urlTextField] refreshButton] setDelegate:self];
     
-    [self.view addSubview:_topView];
+    __weak typeof(self) weakSelf = self;
+    [_topToolBar setCloseBlock:^{
+        [weakSelf closeWebViewController];
+    }];
+    
+    [self.view addSubview:_topToolBar];
 }
 
 - (void)setupBottomToolBar
@@ -128,7 +133,6 @@ static CGFloat kBottomToolBarHeight = 44.f;
         [_webViews insertObject:aNewWebView atIndex:sNewWebViewIndex];
         self.webView = aNewWebView;
         [self showActiveWebView];
-        [self updateCountOnTabOverViewButton];
     }
 }
 

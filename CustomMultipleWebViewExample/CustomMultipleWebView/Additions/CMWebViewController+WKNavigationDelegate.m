@@ -7,12 +7,11 @@
 //
 
 #import "CMWebViewController+WKNavigationDelegate.h"
-#import "CMTopView.h"
 
 
 @interface CMWebViewController()
 
-@property(nonatomic, readwrite) CMTopView *topView;
+@property(nonatomic, readwrite) CMTopToolBar *topToolBar;
 @property(nonatomic, readwrite) CMBottomToolBar *bottomToolBar;
 
 @end
@@ -23,22 +22,22 @@
 {
     [super webView:aWebView didStartProvisionalNavigation:aNavigation];
     
-    [[[self topView] urlTextField] setText:aWebView.URL.absoluteString];
-    [[[self topView] refreshButton] setRefreshState:CMRefreshRefreshingState];
+    [[[self topToolBar] urlTextField] setText:aWebView.URL.absoluteString];
+    [[[[self topToolBar] urlTextField] refreshButton] setRefreshState:CMRefreshRefreshingState];
 }
 
 - (void)webView:(WKWebView *)aWebView didFailProvisionalNavigation:(WKNavigation *)aNavigation withError:(NSError *)aError
 {
     [super webView:aWebView didFailProvisionalNavigation:aNavigation withError:aError];
     
-    [[[self topView] refreshButton] setRefreshState:CMRefreshReadyState];
+    [[[[self topToolBar] urlTextField] refreshButton] setRefreshState:CMRefreshReadyState];
 }
 
 - (void)webView:(WKWebView *)aWebView didFinishNavigation:(WKNavigation *)aNavigation
 {
     [super webView:aWebView didFinishNavigation:aNavigation];
     
-    [[[self topView] refreshButton] setRefreshState:CMRefreshReadyState];
+    [[[[self topToolBar] urlTextField] refreshButton] setRefreshState:CMRefreshReadyState];
     [self enableToolBarButton];
 }
 
@@ -46,7 +45,7 @@
 {
     [super webView:aWebView didFailNavigation:aNavigation withError:aError];
     
-    [[[self topView] refreshButton] setRefreshState:CMRefreshReadyState];
+    [[[[self topToolBar] urlTextField] refreshButton] setRefreshState:CMRefreshReadyState];
     [self enableToolBarButton];
 }
 

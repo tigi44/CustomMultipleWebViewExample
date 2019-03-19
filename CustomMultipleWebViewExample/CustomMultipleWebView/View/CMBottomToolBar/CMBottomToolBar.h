@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger, CMBottomToolBarType)
 {
     CMBottomToolBarTypeNormal = 0,
-    CMBottomToolBarTypeTab
+    CMBottomToolBarTypeInTab,
+    CMBottomToolBarTypeNoneTab
 };
 
 typedef NS_ENUM(NSInteger, CMBottomToolBarButtonItemIndex)

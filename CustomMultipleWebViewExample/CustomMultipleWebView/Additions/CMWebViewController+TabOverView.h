@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CMWebViewController (TabOverView) <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CMTabOverViewActionDelegate>
 
 - (void)setupTapOverViewCollectionView;
-- (void)updateCountOnTabOverViewButton;
 - (void)layoutTapOverViewCollectionView;
 - (void)createNewWebViewInTabOverView;
 - (BOOL)isShowingTabOverView;

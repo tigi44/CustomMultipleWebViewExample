@@ -33,8 +33,16 @@
         case CMBottomToolBarTypeNormal:
             [self setupToolBarButtonItems];
             break;
-        case CMBottomToolBarTypeTab:
+        case CMBottomToolBarTypeInTab:
             [self setupToolBarButtonItemsInTabType];
+            break;
+        case CMBottomToolBarTypeNoneTab:
+        {
+            [self setupToolBarButtonItems];
+            NSMutableArray *sMutableItems = [NSMutableArray arrayWithArray:self.items];
+            [sMutableItems removeLastObject];
+            [self setItems:[sMutableItems copy]];
+        }
             break;
     }
 }
