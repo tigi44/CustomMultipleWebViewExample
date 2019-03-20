@@ -10,8 +10,6 @@
 
 
 static CGFloat kAnimateTabOverCollectionViewDuration = 0.5f;
-static CGFloat kItemSize = 200.f;
-//static NSInteger kItemCountOnRowOfCollectionView = 2;
 
 @interface CMWebViewController()
 
@@ -42,7 +40,7 @@ static CGFloat kItemSize = 200.f;
     [sLayout setHeaderReferenceSize:CGSizeZero];
     [sLayout setMinimumLineSpacing:0.0f];
     [sLayout setMinimumInteritemSpacing:0.0f];
-    [sLayout setItemSize:CGSizeMake(kItemSize, kItemSize)];
+    [sLayout setEstimatedItemSize:CGSizeMake(50.f, 50.f)];
     
     [self.tabOverViewCollectionView setBackgroundColor:[UIColor whiteColor]];
     [self.tabOverViewCollectionView registerClass:[CMTabOverViewModel cellClass] forCellWithReuseIdentifier:NSStringFromClass([CMTabOverViewModel cellClass])];
@@ -94,6 +92,7 @@ static CGFloat kItemSize = 200.f;
     [self.webView setHidden:YES];
     [self.topToolBar.urlTextField setText:nil];
     [self.tabOverViewCollectionView reloadData];
+    [self.tabOverViewCollectionView.collectionViewLayout invalidateLayout];
     [[self bottomToolBar] setToolBarType:CMBottomToolBarTypeInTab];
     
     __weak UICollectionView *sWeakCollectionView = self.tabOverViewCollectionView;

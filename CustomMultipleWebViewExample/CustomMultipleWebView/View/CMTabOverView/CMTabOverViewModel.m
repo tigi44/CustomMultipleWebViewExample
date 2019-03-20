@@ -62,15 +62,11 @@
     UIImage *sWebViewImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     [mWebView setHidden:sHiddenWebView];
-
     [[aCell webImageView] setImage:sWebViewImage];
-    [aCell webImageView].transform = CGAffineTransformMakeScale(0.5, 0.5);
-    [aCell webImageView].transform = CGAffineTransformTranslate([aCell webImageView].transform, -1 * CGRectGetWidth([aCell webImageView].frame), -1 * CGRectGetHeight([aCell webImageView].frame));
     
     [mWebView evaluateJavaScript:@"document.title"
                completionHandler:^(id _Nullable result, NSError * _Nullable error) {
                    [[aCell titleLabel] setText:result];
-                   [aCell sizeToFit];
                }
      ];
     
@@ -81,8 +77,6 @@
         [[aCell boundButton] addTarget:mTarget action:@selector(actionChangeActiveWebView:) forControlEvents:UIControlEventTouchUpInside];
         [[aCell closeButton] addTarget:mTarget action:@selector(actionCloseWebView:) forControlEvents:UIControlEventTouchUpInside];
     }
-    
-    [aCell sizeToFit];
 }
 
 @end

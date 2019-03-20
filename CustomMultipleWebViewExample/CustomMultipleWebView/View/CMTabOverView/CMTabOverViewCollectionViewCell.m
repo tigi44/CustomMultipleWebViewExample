@@ -10,6 +10,7 @@
 
 
 static CGFloat kBoundViewMargin = 20;
+static CGFloat kCellSize = 200.f;
 
 @implementation CMTabOverViewCollectionViewCell
 
@@ -20,10 +21,21 @@ static CGFloat kBoundViewMargin = 20;
         [self setBackgroundColor:[UIColor clearColor]];
         [self setClipsToBounds:YES];
         
+        self.translatesAutoresizingMaskIntoConstraints = NO;
+        [NSLayoutConstraint activateConstraints:@[[self.widthAnchor constraintEqualToConstant:kCellSize],
+                                                  [self.heightAnchor constraintEqualToConstant:kCellSize]
+                                                  ]];
+        self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
+        [NSLayoutConstraint activateConstraints:@[[self.contentView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
+                                                  [self.contentView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
+                                                  [self.contentView.topAnchor constraintEqualToAnchor:self.topAnchor],
+                                                  [self.contentView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor]
+                                                  ]];
+        
         [self setupBoundButton];
         [self setupWebImageView];
-        [self setupTitleLabel];
         [self setupCloseButton];
+        [self setupTitleLabel];
     }
     return self;
 }
@@ -35,24 +47,9 @@ static CGFloat kBoundViewMargin = 20;
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-}
-
-- (CGSize)sizeThatFits:(CGSize)aSize
-{
-    [_titleLabel sizeToFit];
-    [_boundButton setFrame:CGRectMake(kBoundViewMargin, kBoundViewMargin, aSize.width - kBoundViewMargin * 2, aSize.height - kBoundViewMargin * 2)];
     
-    CGSize sBoundViewSize = CGSizeMake(CGRectGetWidth(_boundButton.frame), CGRectGetHeight(_boundButton.frame));
-    CGSize sTitleLabelSize = _titleLabel.frame.size;
-    CGSize sCloseButtonSize = CGSizeMake(sTitleLabelSize.height, sTitleLabelSize.height);
-    
-    [_webImageView setFrame:CGRectMake(0, 0, sBoundViewSize.width, sBoundViewSize.height)];
-    
-    [_closeButton setFrame:CGRectMake(0, 0, sCloseButtonSize.width, sCloseButtonSize.height)];
-    
-    [_titleLabel setFrame:CGRectMake(sCloseButtonSize.width, 0, sBoundViewSize.width - sCloseButtonSize.width, sTitleLabelSize.height)];
-    
-    return aSize;
+    [NSLayoutConstraint activateConstraints:@[[_closeButton.widthAnchor constraintEqualToAnchor:_titleLabel.heightAnchor multiplier:1],
+                                              [_closeButton.heightAnchor constraintEqualToAnchor:_titleLabel.heightAnchor multiplier:1]]];
 }
 
 
@@ -67,6 +64,13 @@ static CGFloat kBoundViewMargin = 20;
     [_boundButton.layer setBorderColor:[UIColor lightGrayColor].CGColor];
     
     [self.contentView addSubview:_boundButton];
+    
+    _boundButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:@[[_boundButton.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:kBoundViewMargin],
+                                              [_boundButton.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-kBoundViewMargin],
+                                              [_boundButton.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:kBoundViewMargin],
+                                              [_boundButton.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-kBoundViewMargin]
+                                              ]];
 }
 
 - (void)setupWebImageView
@@ -75,6 +79,27 @@ static CGFloat kBoundViewMargin = 20;
     [_webImageView setClipsToBounds:YES];
     
     [_boundButton addSubview:_webImageView];
+    
+    _webImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:@[[_webImageView.leadingAnchor constraintEqualToAnchor:_boundButton.leadingAnchor],
+                                              [_webImageView.topAnchor constraintEqualToAnchor:_boundButton.topAnchor],
+                                              [_webImageView.trailingAnchor constraintEqualToAnchor:_boundButton.trailingAnchor],
+                                              [_webImageView.bottomAnchor constraintEqualToAnchor:_boundButton.bottomAnchor]
+                                              ]];
+}
+
+- (void)setupCloseButton
+{
+    _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_closeButton setImage:[UIImage imageNamed:@"closeButtonImage"] forState:UIControlStateNormal];
+    [_closeButton setBackgroundColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:0.1]];
+    
+    [_boundButton addSubview:_closeButton];
+    
+    _closeButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:@[[_closeButton.leadingAnchor constraintEqualToAnchor:_boundButton.leadingAnchor],
+                                              [_closeButton.topAnchor constraintEqualToAnchor:_boundButton.topAnchor]
+                                              ]];
 }
 
 - (void)setupTitleLabel
@@ -85,15 +110,12 @@ static CGFloat kBoundViewMargin = 20;
     [_titleLabel setTextAlignment:NSTextAlignmentCenter];
     
     [_boundButton addSubview:_titleLabel];
-}
-
-- (void)setupCloseButton
-{
-    _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_closeButton setImage:[UIImage imageNamed:@"closeButtonImage"] forState:UIControlStateNormal];
-    [_closeButton setBackgroundColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:0.1]];
     
-    [_boundButton addSubview:_closeButton];
+    _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:@[[_titleLabel.leadingAnchor constraintEqualToAnchor:_closeButton.trailingAnchor],
+                                              [_titleLabel.topAnchor constraintEqualToAnchor:_boundButton.topAnchor],
+                                              [_titleLabel.trailingAnchor constraintEqualToAnchor:_boundButton.trailingAnchor]
+                                              ]];
 }
 
 @end
