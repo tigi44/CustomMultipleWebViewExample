@@ -60,10 +60,6 @@
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    
-    UIEdgeInsets sSafeAreaInsets = [[[UIApplication sharedApplication] keyWindow] safeAreaInsets];
-    
-    [_webView setFrame:CGRectMake(0, sSafeAreaInsets.top, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - sSafeAreaInsets.top - sSafeAreaInsets.bottom)];
 }
 
 
@@ -72,12 +68,34 @@
 
 - (void)setupWebView
 {
-//    _webView = [[CMProgressWebView alloc] initWithFrame:CGRectZero];
     _webView = [[CMProgressWebView alloc] init];
     [_webView setNavigationDelegate:self];
     [_webView setUIDelegate:self];
     
     [self.view addSubview:_webView];
+    
+    [self setupWebViewLayout];
+}
+
+- (void)setupWebViewLayout
+{
+    _webView.translatesAutoresizingMaskIntoConstraints = NO;
+    if (@available(iOS 11, *))
+    {
+        UILayoutGuide *sGuide = self.view.safeAreaLayoutGuide;
+        [_webView.leadingAnchor constraintEqualToAnchor:sGuide.leadingAnchor].active = YES;
+        [_webView.trailingAnchor constraintEqualToAnchor:sGuide.trailingAnchor].active = YES;
+        [_webView.topAnchor constraintEqualToAnchor:sGuide.topAnchor].active = YES;
+        [_webView.bottomAnchor constraintEqualToAnchor:sGuide.bottomAnchor].active = YES;
+    }
+    //    else
+    //    {
+    //        UILayoutGuide *sMargins = self.view.layoutMarginsGuide;
+    //        [_webView.leadingAnchor constraintEqualToAnchor:sMargins.leadingAnchor].active = YES;
+    //        [_webView.trailingAnchor constraintEqualToAnchor:sMargins.trailingAnchor].active = YES;
+    //        [_webView.topAnchor constraintEqualToAnchor:self.topLayoutGuide.bottomAnchor].active = YES;
+    //        [_webView.bottomAnchor constraintEqualToAnchor:self.bottomLayoutGuide.topAnchor].active = YES;
+    //    }
 }
 
 

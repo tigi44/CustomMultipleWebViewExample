@@ -32,6 +32,10 @@ static CGFloat kBorderBottomLineHeight = 1.f;
     return self;
 }
 
+- (void)layoutSubviews
+{
+    [_urlTextField setFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame) * 4 / 5, CGRectGetHeight(self.frame) * 3 / 4)];
+}
 
 #pragma mark - setup
 
@@ -46,8 +50,8 @@ static CGFloat kBorderBottomLineHeight = 1.f;
     _borderBottomLineView.translatesAutoresizingMaskIntoConstraints = NO;
     [_borderBottomLineView.heightAnchor constraintEqualToConstant:kBorderBottomLineHeight].active = YES;
     [_borderBottomLineView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-kBorderBottomLineHeight].active = YES;
-    [_borderBottomLineView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:0.f].active = YES;
-    [_borderBottomLineView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:0.f].active = YES;
+    [_borderBottomLineView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+    [_borderBottomLineView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     
     [self setupUrlTextField];
 }
@@ -55,10 +59,6 @@ static CGFloat kBorderBottomLineHeight = 1.f;
 - (void)setupUrlTextField
 {
     _urlTextField = [[CMURLTextField alloc] initWithFrame:CGRectZero];
-
-    _urlTextField.translatesAutoresizingMaskIntoConstraints = NO;
-    [_urlTextField.widthAnchor constraintEqualToConstant:CGRectGetWidth(self.frame) * 4 / 5].active = YES;
-    [_urlTextField.heightAnchor constraintEqualToConstant:CGRectGetHeight(self.frame) * 3 / 4].active = YES;
 }
 
 - (void)setupToolBarButtonItems

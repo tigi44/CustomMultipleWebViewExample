@@ -46,6 +46,7 @@ static CGFloat kBottomToolBarHeight = 44.f;
         _pageType = aPageType;
         [self setupTopToolBar];
         [self setupBottomToolBar];
+        [self setupWebViewLayout:self.webView];
         
         switch (_pageType) {
             case WebViewSinglePageType:
@@ -78,29 +79,37 @@ static CGFloat kBottomToolBarHeight = 44.f;
 {
     [super viewDidAppear:aAnimated];
     
-    [self activeNewWebView:self.webView];
+    [self addNewWebView:self.webView];
+    [self showActiveWebView:self.webView];
 }
 
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    
-    UIEdgeInsets sSafeAreaInsets = [[[UIApplication sharedApplication] keyWindow] safeAreaInsets];
-    
-    [_topToolBar setFrame:CGRectMake(0, sSafeAreaInsets.top, CGRectGetWidth(_topToolBar.frame), CGRectGetHeight(_topToolBar.frame))];
-    [self.webView setFrame:CGRectMake(0, CGRectGetMaxY(_topToolBar.frame), CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - CGRectGetMaxY(_topToolBar.frame) - CGRectGetHeight(_bottomToolBar.frame) - sSafeAreaInsets.bottom)];
-    [_bottomToolBar setFrame:CGRectMake(0, CGRectGetMaxY(self.webView.frame), CGRectGetWidth(_bottomToolBar.frame), CGRectGetHeight(_bottomToolBar.frame))];
-    
-    [self layoutTapOverViewCollectionView];
+}
+
+- (void)setupWebViewLayout
+{
+    // override
 }
 
 
 #pragma mark - setup
 
 
+- (void)setupWebViewLayout:(CMProgressWebView *)aWebView
+{
+    UILayoutGuide *sGuide = self.view.safeAreaLayoutGuide;
+    aWebView.translatesAutoresizingMaskIntoConstraints = NO;
+    [aWebView.leadingAnchor constraintEqualToAnchor:sGuide.leadingAnchor].active = YES;
+    [aWebView.trailingAnchor constraintEqualToAnchor:sGuide.trailingAnchor].active = YES;
+    [aWebView.topAnchor constraintEqualToAnchor:_topToolBar.bottomAnchor].active = YES;
+    [aWebView.bottomAnchor constraintEqualToAnchor:_bottomToolBar.topAnchor].active = YES;
+}
+
 - (void)setupTopToolBar
 {
-    _topToolBar = [[CMTopToolBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kTopToolBarHeight)];
+    _topToolBar = [[CMTopToolBar alloc] initWithFrame:CGRectZero];
     
     [[_topToolBar urlTextField] setDelegate:self];
     [[[_topToolBar urlTextField] refreshButton] setDelegate:self];
@@ -111,43 +120,54 @@ static CGFloat kBottomToolBarHeight = 44.f;
     }];
     
     [self.view addSubview:_topToolBar];
+    
+    _topToolBar.translatesAutoresizingMaskIntoConstraints = NO;
+    [_topToolBar.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [_topToolBar.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+    [_topToolBar.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
+    [_topToolBar.heightAnchor constraintEqualToConstant:kTopToolBarHeight].active = YES;
 }
 
 - (void)setupBottomToolBar
 {
-    _bottomToolBar = [[CMBottomToolBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kBottomToolBarHeight)];
+    _bottomToolBar = [[CMBottomToolBar alloc] initWithFrame:CGRectZero];
+    
     [_bottomToolBar setToolBarDelegate:self];
     
     [self.view addSubview:_bottomToolBar];
+    
+    _bottomToolBar.translatesAutoresizingMaskIntoConstraints = NO;
+    [_bottomToolBar.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [_bottomToolBar.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+    [_bottomToolBar.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor].active = YES;
+    [_bottomToolBar.heightAnchor constraintEqualToConstant:kBottomToolBarHeight].active = YES;
 }
 
 
 #pragma mark - private
 
 
-- (void)activeNewWebView:(CMProgressWebView *)aNewWebView
+- (void)addNewWebView:(CMProgressWebView *)aNewWebView
 {
+    if (aNewWebView && ![self.view.subviews containsObject:aNewWebView])
+    {
+        [self.view insertSubview:aNewWebView aboveSubview:self.webView];
+    }
+    
     if (aNewWebView && ![_webViews containsObject:aNewWebView])
     {
         NSInteger sNewWebViewIndex = ([_webViews containsObject:self.webView]) ? [_webViews indexOfObject:self.webView] + 1 : 0;
         [_webViews insertObject:aNewWebView atIndex:sNewWebViewIndex];
-        self.webView = aNewWebView;
-        [self showActiveWebView];
     }
 }
 
-- (void)showActiveWebView
+- (void)showActiveWebView:(CMProgressWebView *)aActiveWebView
 {
-    BOOL sIsFrontOfActive = NO;
+    self.webView = aActiveWebView;
     
     for (WKWebView *sWebView in self.webViews)
     {
-        [sWebView setHidden:sIsFrontOfActive];
-        
-        if (!sIsFrontOfActive && sWebView == self.webView)
-        {
-            sIsFrontOfActive = YES;
-        }
+        [sWebView setHidden:(sWebView != self.webView)];
     }
 }
 
@@ -155,21 +175,26 @@ static CGFloat kBottomToolBarHeight = 44.f;
 {
     BOOL sResult = NO;
     
-    if ([_webViews count] > 1)
+    if ([_webViews containsObject:aClosingWebView])
     {
-        if ([_webViews containsObject:aClosingWebView])
+        [_webViews removeObject:aClosingWebView];
+        [aClosingWebView removeFromSuperview];
+        
+        if (self.webView == aClosingWebView)
         {
-            [_webViews removeObject:aClosingWebView];
-            [aClosingWebView removeFromSuperview];
-            
-            if (self.webView == aClosingWebView)
+            CMProgressWebView *sLastObject = [_webViews lastObject];
+            if (sLastObject)
             {
-                self.webView = [_webViews lastObject];
+                [self showActiveWebView:[_webViews lastObject]];
             }
-            
-            aClosingWebView = nil;
-            sResult = YES;
+            else
+            {
+                [self closeWebViewController];
+            }
         }
+        
+        aClosingWebView = nil;
+        sResult = YES;
     }
     
     return sResult;
@@ -177,7 +202,7 @@ static CGFloat kBottomToolBarHeight = 44.f;
 
 - (CMProgressWebView *)createNewWebView:(WKWebViewConfiguration *)aConfiguration
 {
-    CMProgressWebView *sNewWebView = [[CMProgressWebView alloc] initWithFrame:[self.webView frame] configuration:aConfiguration];
+    CMProgressWebView *sNewWebView = [[CMProgressWebView alloc] initWithFrame:CGRectZero configuration:aConfiguration];
     
     [sNewWebView setNavigationDelegate:self];
     [sNewWebView setUIDelegate:self];
@@ -208,7 +233,12 @@ static CGFloat kBottomToolBarHeight = 44.f;
             break;
     }
     
-    [self activeNewWebView:sNewWebView];
+    if (sNewWebView)
+    {
+        [self addNewWebView:sNewWebView];
+        [self setupWebViewLayout:sNewWebView];
+        [self showActiveWebView:sNewWebView];
+    }
     
     return sNewWebView;
 }

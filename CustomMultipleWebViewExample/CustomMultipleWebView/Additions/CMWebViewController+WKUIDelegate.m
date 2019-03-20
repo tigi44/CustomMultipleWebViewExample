@@ -6,7 +6,6 @@
 //  Copyright © 2019 tigi. All rights reserved.
 //
 
-#define TRANSITION_WEBVIEW
 
 #import "CMWebViewController+WKUIDelegate.h"
 
@@ -54,22 +53,11 @@ static CGFloat kAnimateWebViewDuration = 0.5f;
 {
     if (aNewWebView)
     {
-#ifdef TRANSITION_WEBVIEW
         [UIView transitionWithView:self.view
                           duration:kAnimateWebViewDuration
                            options:UIViewAnimationOptionTransitionCrossDissolve
-                        animations:^{ [self.view insertSubview:aNewWebView aboveSubview:aSiblingSubview]; }
+                        animations:nil
                         completion:nil];
-#else
-        [aNewWebView setFrame:CGRectMake(CGRectGetMinX(aNewWebView.frame), CGRectGetMaxY(self.webView.frame), CGRectGetWidth(aNewWebView.frame), CGRectGetHeight(aNewWebView.frame))];
-        
-        [self.view addSubview:aNewWebView];
-        
-        [UIView animateWithDuration:kAnimateWebViewDuration
-                         animations:^{
-                             [aNewWebView setFrame:CGRectMake(CGRectGetMinX(aNewWebView.frame), CGRectGetMinY(self.webView.frame), CGRectGetWidth(aNewWebView.frame), CGRectGetHeight(aNewWebView.frame))];
-                         }];
-#endif
     }
 }
 

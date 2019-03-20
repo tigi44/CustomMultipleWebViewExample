@@ -10,7 +10,8 @@
 
 
 static CGFloat kAnimateTabOverCollectionViewDuration = 0.5f;
-static NSInteger kItemCountOnRowOfCollectionView = 2;
+static CGFloat kItemSize = 200.f;
+//static NSInteger kItemCountOnRowOfCollectionView = 2;
 
 @interface CMWebViewController()
 
@@ -21,7 +22,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 @property(nonatomic, readwrite) UICollectionView *tabOverViewCollectionView;
 
 - (BOOL)closeWebView:(CMProgressWebView *)aClosingWebView;
-- (void)showActiveWebView;
+- (void)showActiveWebView:(CMProgressWebView *)aActiveWebView;
 
 @end
 
@@ -41,21 +42,21 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     [sLayout setHeaderReferenceSize:CGSizeZero];
     [sLayout setMinimumLineSpacing:0.0f];
     [sLayout setMinimumInteritemSpacing:0.0f];
+    [sLayout setItemSize:CGSizeMake(kItemSize, kItemSize)];
     
     [self.tabOverViewCollectionView setBackgroundColor:[UIColor whiteColor]];
     [self.tabOverViewCollectionView registerClass:[CMTabOverViewModel cellClass] forCellWithReuseIdentifier:NSStringFromClass([CMTabOverViewModel cellClass])];
     [self.tabOverViewCollectionView setDataSource:self];
     [self.tabOverViewCollectionView setDelegate:self];
     [self.tabOverViewCollectionView setHidden:YES];
-}
-
-- (void)layoutTapOverViewCollectionView
-{
-    [self.tabOverViewCollectionView setFrame:self.webView.frame];
     
-    CGFloat sItemSize = self.tabOverViewCollectionView.frame.size.width / kItemCountOnRowOfCollectionView;
-    UICollectionViewFlowLayout *sLayout = (UICollectionViewFlowLayout *)[self.tabOverViewCollectionView collectionViewLayout];
-    [sLayout setItemSize:CGSizeMake(sItemSize, sItemSize)];
+    [self.view addSubview:self.tabOverViewCollectionView];
+    
+    self.tabOverViewCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.tabOverViewCollectionView.leadingAnchor constraintEqualToAnchor:self.webView.leadingAnchor].active = YES;
+    [self.tabOverViewCollectionView.trailingAnchor constraintEqualToAnchor:self.webView.trailingAnchor].active = YES;
+    [self.tabOverViewCollectionView.topAnchor constraintEqualToAnchor:self.webView.topAnchor].active = YES;
+    [self.tabOverViewCollectionView.bottomAnchor constraintEqualToAnchor:self.webView.bottomAnchor].active = YES;
 }
 
 - (void)createNewWebViewInTabOverView
@@ -75,18 +76,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 
 - (void)toggleTabOverView
 {
-    BOOL sContainedSubView = NO;
-    
-    for (UIView *sSubView in self.view.subviews)
-    {
-        if (sSubView == self.tabOverViewCollectionView)
-        {
-            sContainedSubView = YES;
-            break;
-        }
-    }
-    
-    if (sContainedSubView)
+    if (!self.tabOverViewCollectionView.isHidden)
     {
         [self hideTabOverViewCollectionView];
     }
@@ -101,6 +91,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
 
 - (void)showTabOverViewCollectionView
 {
+    [self.webView setHidden:YES];
     [self.topToolBar.urlTextField setText:nil];
     [self.tabOverViewCollectionView reloadData];
     [[self bottomToolBar] setToolBarType:CMBottomToolBarTypeInTab];
@@ -111,14 +102,15 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
                        options:UIViewAnimationOptionTransitionFlipFromRight
                     animations:^{
                         [sWeakCollectionView setHidden:NO];
-                        [self.view addSubview:sWeakCollectionView];
                     }
-                    completion:nil];
+                    completion:^(BOOL finished) {
+                        [sWeakCollectionView setHidden:NO];
+                    }];
 }
 
 - (void)hideTabOverViewCollectionView
 {
-    [self showActiveWebView];
+    [self.webView setHidden:NO];
     [self.topToolBar.urlTextField setText:self.webView.URL.absoluteString];
     [[self bottomToolBar] setToolBarType:CMBottomToolBarTypeNormal];
     
@@ -127,7 +119,7 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
                       duration:kAnimateTabOverCollectionViewDuration
                        options:UIViewAnimationOptionTransitionFlipFromLeft
                     animations:^{
-                        [sWeakCollectionView removeFromSuperview];
+                        [sWeakCollectionView setHidden:YES];
                     }
                     completion:^(BOOL finished) {
                         [sWeakCollectionView setHidden:YES];
@@ -139,21 +131,17 @@ static NSInteger kItemCountOnRowOfCollectionView = 2;
     NSInteger sIndexOfWebView = [self.webViews indexOfObject:aClosingWebView];
     NSIndexPath *sIndexPath = [NSIndexPath indexPathForRow:sIndexOfWebView inSection:0];
     
-    [self.tabOverViewCollectionView performBatchUpdates:^{
-        BOOL sIsCloseSuccess = [self closeWebView:aClosingWebView];
-        
-        if (sIsCloseSuccess)
-        {
-            [self.tabOverViewCollectionView deleteItemsAtIndexPaths:@[sIndexPath]];
-        }
-    } completion:^(BOOL finished) {
-        [self.tabOverViewCollectionView reloadData];
-    }];
+    BOOL sIsCloseSuccess = [self closeWebView:aClosingWebView];
+    
+    if (sIsCloseSuccess)
+    {
+        [self.tabOverViewCollectionView deleteItemsAtIndexPaths:@[sIndexPath]];
+    }
 }
 
 - (void)changeActiveWebView:(CMProgressWebView *)aActiveWebView
 {
-    self.webView = aActiveWebView;
+    [self showActiveWebView:aActiveWebView];
     
     [self hideTabOverViewCollectionView];
 }
