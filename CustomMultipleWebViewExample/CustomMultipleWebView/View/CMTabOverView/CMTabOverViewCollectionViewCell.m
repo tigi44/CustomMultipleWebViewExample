@@ -21,16 +21,9 @@ static CGFloat kCellSize = 200.f;
         [self setBackgroundColor:[UIColor clearColor]];
         [self setClipsToBounds:YES];
         
-        self.translatesAutoresizingMaskIntoConstraints = NO;
-        [NSLayoutConstraint activateConstraints:@[[self.widthAnchor constraintEqualToConstant:kCellSize],
-                                                  [self.heightAnchor constraintEqualToConstant:kCellSize]
-                                                  ]];
-        self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
-        [NSLayoutConstraint activateConstraints:@[[self.contentView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
-                                                  [self.contentView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
-                                                  [self.contentView.topAnchor constraintEqualToAnchor:self.topAnchor],
-                                                  [self.contentView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor]
-                                                  ]];
+        [NSLayoutConstraint activateConstraints:@[[self.contentView.widthAnchor constraintEqualToConstant:kCellSize],
+                                                [self.contentView.heightAnchor constraintEqualToConstant:kCellSize]
+                                                          ]];
         
         [self setupBoundButton];
         [self setupWebImageView];
